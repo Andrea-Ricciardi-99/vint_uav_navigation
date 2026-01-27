@@ -1,0 +1,20 @@
+/**:
+  ros__parameters:
+    # Model selection
+    model: "vint"
+    
+    # Topics - CRITICAL: Set these for your MRS setup
+    image_topic: "/uav1/bluefox_optflow/image_raw"  # YOUR CAMERA TOPIC
+    waypoint_topic: "/vint/waypoint"
+    sampled_actions_topic: "/vint/sampled_actions"
+    goal_reached_topic: "/vint/goal_reached"
+    
+    # Navigation parameters
+    waypoint_index: 2           # Which predicted waypoint to use (0-4)
+    goal_node: -1               # Goal node in topomap (-1 = last node)
+    close_threshold: 3          # Distance threshold for node switching
+    radius: 4                   # Local search radius in topomap
+    num_samples: 8              # For NoMaD only (not used in ViNT)
+    
+    # Topomap (MUST be set at launch time or here)
+    topomap_dir: ""

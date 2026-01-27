@@ -1,0 +1,8 @@
+# Maximum linear velocity (m/s)
+max_v: 0.5
+
+# Maximum angular velocity (rad/s)  
+max_w: 1.0
+
+# Control loop rate (Hz)
+frame_rate: 10
