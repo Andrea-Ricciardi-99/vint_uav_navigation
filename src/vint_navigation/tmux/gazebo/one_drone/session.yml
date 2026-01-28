@@ -15,7 +15,9 @@ pre_window:
   - export RMW_IMPLEMENTATION=rmw_zenoh_cpp
   - export USE_SIM_TIME="true"
   #- export WORLD_FILE=`ros2 pkg prefix mrs_gazebo_common_resources`/share/mrs_gazebo_common_resources/worlds/pine_forest.sdf
-  - export WORLD_FILE=`ros2 pkg prefix aws_robomaker_small_warehouse_world`/share/aws_robomaker_small_warehouse_world/worlds/small_warehouse/small_warehouse.world
+  #- export WORLD_FILE=`ros2 pkg prefix aws_robomaker_small_warehouse_world`/share/aws_robomaker_small_warehouse_world/worlds/small_warehouse/small_warehouse.world
+  - export WORLD_FILE=`ros2 pkg prefix aws_robomaker_hospital_world`/share/aws_robomaker_hospital_world/worlds/hospital.world
+  
 startup_window: status
 windows:
   - zenoh_router:
@@ -60,18 +62,34 @@ windows:
       layout: tiled
       panes:
         - waitForCore; sleep 2; ~/.i3/layout_manager.sh ./layout.json
-  - vint_navigation:
+  # - vint_navigation:
+  #     layout: tiled
+  #     panes:
+  #       - |
+  #         waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
+  #           topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/warehouse_v2 \
+  #           model:=vint \
+  #           image_topic:=/uav1/bluefox_front/image_raw \
+  #           waypoint_topic:=/uav1/vint/waypoint \
+  #           predicted_path_topic:=/uav1/vint/viz/predicted_path \
+  #           markers_topic:=/uav1/vint/viz/markers \
+  #           annotated_image_topic:=/uav1/vint/viz/annotated_image \
+  #           enable_control:=true \
+  #           world_frame:=uav1/gps_garmin_origin \
+  #           fcu_frame:=uav1/fcu \
+  #           camera_rotation_deg:=0.0 \
+  #           update_rate:=4.0 \
+  #           use_heading:=true
+  - create_topomap:
       layout: tiled
       panes:
         - |
-          waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
-            topomap_dir:=/home/andrea/Desktop/Drone_VLA/VLA_ws/src/vint_navigation/topomaps/my_route_001/images \
-            model:=vint \
+          waitForCore; ros2 launch vint_navigation create_topomap.launch.py \
+            topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps \
+            topomap_name:=warehouse_v2 \
             image_topic:=/uav1/bluefox_front/image_raw \
-            waypoint_topic:=/uav1/vint/waypoint \
-            predicted_path_topic:=/uav1/vint/viz/predicted_path \
-            markers_topic:=/uav1/vint/viz/markers \
-            annotated_image_topic:=/uav1/vint/viz/annotated_image 
+            dt:=1.0
+
 
 
           

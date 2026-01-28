@@ -10,7 +10,7 @@
     goal_reached_topic: "/vint/goal_reached"
     
     # Navigation parameters
-    waypoint_index: 2           # Which predicted waypoint to use (0-4)
+    waypoint_index: 4           # Which predicted waypoint to use (0-4)
     goal_node: -1               # Goal node in topomap (-1 = last node)
     close_threshold: 3          # Distance threshold for node switching
     radius: 4                   # Local search radius in topomap

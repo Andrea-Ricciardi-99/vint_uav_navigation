@@ -187,9 +187,14 @@ class ViNTNavigatorNode(Node):
             
             distances = to_numpy(distances)
             waypoints = to_numpy(waypoints)
-            
+
             # Find closest node
             min_dist_idx = np.argmin(distances)
+
+            # self.get_logger().info(
+            #     f"Nodes [{start}:{end+1}] Dist: {distances.flatten()} Min@{min_dist_idx}",
+            #     throttle_duration_sec=0.5
+            # )
             
             # Choose subgoal and output waypoint
             if distances[min_dist_idx] > self.close_threshold:

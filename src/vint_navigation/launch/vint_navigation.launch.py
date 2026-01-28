@@ -62,6 +62,50 @@ def generate_launch_description():
         description='Enable visualization node'
     )
     
+    enable_control_arg = DeclareLaunchArgument(
+        'enable_control',
+        default_value='false',
+        description='Enable MRS control (sends goto commands)'
+    )
+    
+    # Frame arguments
+    world_frame_arg = DeclareLaunchArgument(
+        'world_frame',
+        default_value='world',
+        description='World frame name'
+    )
+    
+    fcu_frame_arg = DeclareLaunchArgument(
+        'fcu_frame',
+        default_value='',
+        description='FCU frame name (empty = auto {uav_name}/fcu)'
+    )
+    
+    # Camera and waypoint parameters
+    camera_rotation_arg = DeclareLaunchArgument(
+        'camera_rotation_deg',
+        default_value='90.0',
+        description='Camera rotation from fcu frame (degrees, clockwise positive)'
+    )
+    
+    scale_factor_arg = DeclareLaunchArgument(
+        'scale_factor',
+        default_value='1.0',
+        description='Scale factor for ViNT waypoint distances'
+    )
+    
+    update_rate_arg = DeclareLaunchArgument(
+        'update_rate',
+        default_value='4.0',
+        description='Rate (Hz) for sending goto commands to MRS'
+    )
+    
+    use_heading_arg = DeclareLaunchArgument(
+        'use_heading',
+        default_value='true',
+        description='Use ViNT heading predictions'
+    )
+    
     # Navigator node
     vint_node = Node(
         package='vint_navigation',
@@ -81,7 +125,7 @@ def generate_launch_description():
         emulate_tty=True,
     )
     
-    # Visualizer node
+    # Visualizer node (optional)
     visualizer_node = Node(
         package='vint_navigation',
         executable='vint_visualizer_node.py',
@@ -92,13 +136,34 @@ def generate_launch_description():
             'image_topic': LaunchConfiguration('image_topic'),
             'waypoint_topic': LaunchConfiguration('waypoint_topic'),
             'closest_node_topic': '/vint/closest_node',
-            'frame_id': 'uav1/fcu',  # Adjust to your MRS frame
+            'frame_id': 'uav1/fcu',
             'predicted_path_topic': LaunchConfiguration('predicted_path_topic'),
             'markers_topic': LaunchConfiguration('markers_topic'),
             'annotated_image_topic': LaunchConfiguration('annotated_image_topic'),
         }],
         emulate_tty=True,
         condition=conditions.IfCondition(LaunchConfiguration('enable_viz'))
+    )
+    
+    # MRS waypoint converter (optional - for actual control)
+    mrs_converter_node = Node(
+        package='vint_navigation',
+        executable='vint_to_mrs_waypoint_node.py',
+        name='vint_to_mrs_waypoint',
+        namespace='uav1',
+        output='screen',
+        parameters=[{
+            'waypoint_topic': LaunchConfiguration('waypoint_topic'),
+            'uav_name': 'uav1',
+            'world_frame': LaunchConfiguration('world_frame'),
+            'fcu_frame': LaunchConfiguration('fcu_frame'),
+            'camera_rotation_deg': LaunchConfiguration('camera_rotation_deg'),
+            'use_heading': LaunchConfiguration('use_heading'),
+            'scale_factor': LaunchConfiguration('scale_factor'),
+            'update_rate': LaunchConfiguration('update_rate'),
+        }],
+        emulate_tty=True,
+        condition=conditions.IfCondition(LaunchConfiguration('enable_control'))
     )
     
     return LaunchDescription([
@@ -110,6 +175,14 @@ def generate_launch_description():
         markers_topic_arg,
         annotated_image_topic_arg,
         enable_viz_arg,
+        enable_control_arg,
+        world_frame_arg,
+        fcu_frame_arg,
+        camera_rotation_arg,
+        scale_factor_arg,
+        update_rate_arg,
+        use_heading_arg,
         vint_node,
         visualizer_node,
+        mrs_converter_node,
     ])
