@@ -14,7 +14,8 @@ pre_window:
   - export PLATFORM_CONFIG=`ros2 pkg prefix mrs_uav_gazebo_simulator`/share/mrs_uav_gazebo_simulator/config/mrs_uav_system/$UAV_TYPE.yaml
   - export RMW_IMPLEMENTATION=rmw_zenoh_cpp
   - export USE_SIM_TIME="true"
-  - export WORLD_FILE=`ros2 pkg prefix mrs_gazebo_common_resources`/share/mrs_gazebo_common_resources/worlds/pine_forest.sdf
+  #- export WORLD_FILE=`ros2 pkg prefix mrs_gazebo_common_resources`/share/mrs_gazebo_common_resources/worlds/pine_forest.sdf
+  - export WORLD_FILE=`ros2 pkg prefix aws_robomaker_small_warehouse_world`/share/aws_robomaker_small_warehouse_world/worlds/small_warehouse/small_warehouse.world
 startup_window: status
 windows:
   - zenoh_router:
@@ -67,7 +68,10 @@ windows:
             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VLA_ws/src/vint_navigation/topomaps/my_route_001/images \
             model:=vint \
             image_topic:=/uav1/bluefox_front/image_raw \
-            waypoint_topic:=/uav1/vint/waypoint
+            waypoint_topic:=/uav1/vint/waypoint \
+            predicted_path_topic:=/uav1/vint/viz/predicted_path \
+            markers_topic:=/uav1/vint/viz/markers \
+            annotated_image_topic:=/uav1/vint/viz/annotated_image 
 
 
           

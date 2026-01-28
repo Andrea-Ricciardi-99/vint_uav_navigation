@@ -11,7 +11,7 @@ from pathlib import Path
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
-from std_msgs.msg import Bool, Float32MultiArray
+from std_msgs.msg import Bool, Float32MultiArray, Int32
 from ament_index_python.packages import get_package_share_directory
 
 # Local imports
@@ -128,6 +128,7 @@ class ViNTNavigatorNode(Node):
         self.waypoint_pub = self.create_publisher(Float32MultiArray, waypoint_topic, 1)
         self.sampled_actions_pub = self.create_publisher(Float32MultiArray, sampled_actions_topic, 1)
         self.goal_pub = self.create_publisher(Bool, goal_reached_topic, 1)
+        self.closest_node_pub = self.create_publisher(Int32, '/vint/closest_node', 10)
         
         # Timer for navigation loop
         timer_period = 1.0 / self.RATE
@@ -213,7 +214,12 @@ class ViNTNavigatorNode(Node):
         waypoint_msg = Float32MultiArray()
         waypoint_msg.data = chosen_waypoint.tolist()
         self.waypoint_pub.publish(waypoint_msg)
-        
+
+        # Publish closest node
+        node_msg = Int32()
+        node_msg.data = int(self.closest_node)
+        self.closest_node_pub.publish(node_msg)
+
         # Check goal reached
         self.reached_goal = bool(self.closest_node == self.goal_node)
         goal_msg = Bool()

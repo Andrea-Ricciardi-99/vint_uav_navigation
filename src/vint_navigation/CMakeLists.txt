@@ -16,12 +16,19 @@ find_package(geometry_msgs REQUIRED)
 install(PROGRAMS
   scripts/vint_navigator_node.py
   scripts/utils.py
+  scripts/vint_visualizer_node.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
 # Install launch files
 install(DIRECTORY
   launch
+  DESTINATION share/${PROJECT_NAME}/
+)
+
+# Install train scripts
+install(DIRECTORY
+  train
   DESTINATION share/${PROJECT_NAME}/
 )
 

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  
+  <name>aws_robomaker_small_warehouse_world</name>
+  <version>2.0.0</version>
+  <description>This package contains common gazebo files (worlds, models and plugins) for the ViNT project.</description>
+
+  <maintainer email="andrea.ricciardi@fel.cvut.cz">Andrea Ricciardi</maintainer>
+
+  <license>BSD 3-Clause</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
+
+  <depend>rclcpp</depend>
+  <depend>ros_gz</depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+
+</package>

@@ -1,9 +1,9 @@
 vint:
   # Path to the ORIGINAL vint training config from the vint_train repo
-  config_path: "/home/andrea/Desktop/Drone_VLA/VLA_ws/src/visualnav-transformer/train/config/vint.yaml"
+  config_path: "/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/train/config/vint.yaml"
   # Path to your downloaded vint model checkpoint
   ckpt_path: "/home/andrea/models/vint/vint.pth"
 
 gnm:
-  config_path: "/home/andrea/Desktop/Drone_VLA/VLA_ws/src/visualnav-transformer/train/config/gnm.yaml"
+  config_path: "//home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/train/config/gnm.yaml"
   ckpt_path: "/home/andrea/models/gnm/gnm.pth"

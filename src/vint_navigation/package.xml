@@ -4,7 +4,7 @@
   <name>vint_navigation</name>
   <version>1.0.0</version>
   <description>ViNT visual navigation for MRS drones</description>
-  <maintainer email="andrea@example.com">Andrea</maintainer>
+  <maintainer email="aricciardi132@gmail.com">Andrea Ricciardi</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
@@ -14,6 +14,8 @@
   <depend>std_msgs</depend>
   <depend>geometry_msgs</depend>
   <depend>ament_index_python</depend>
+  <depend>visualization_msgs</depend>
+  <depend>nav_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>
