@@ -1,0 +1,1073 @@
+.
+├── CMakeLists.txt
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── docs
+│   └── images
+│       ├── curtains.png
+│       ├── elevator.png
+│       ├── hospital_ceiling.png
+│       ├── hospital_floor.png
+│       ├── hospital_sign.png
+│       ├── hospital_walls.png
+│       ├── hospital_world.jpg
+│       ├── nurses_station.png
+│       ├── PLACEHOLDER_FOR_SCREENSHOTS
+│       └── ramp.png
+├── env-hooks
+│   └── aws_robomaker_hospital_world.dsv.in
+├── fuel_models
+│   ├── AdjTable
+│   │   ├── meshes
+│   │   │   ├── AdjTable_Col.mtl
+│   │   │   ├── AdjTable_Col.obj
+│   │   │   ├── AdjTable_Diffuse.png
+│   │   │   ├── AdjTable.mtl
+│   │   │   └── AdjTable.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── AnesthesiaMachine
+│   │   ├── meshes
+│   │   │   ├── AnesthesiaMachine_Col.mtl
+│   │   │   ├── AnesthesiaMachine_Col.obj
+│   │   │   ├── AnesthesiaMachine.mtl
+│   │   │   ├── AnesthesiaMachine.obj
+│   │   │   └── AnesthesiaMachine.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── BedsideTable
+│   │   ├── meshes
+│   │   │   ├── BedsideTable_Col.mtl
+│   │   │   ├── BedsideTable_Col.obj
+│   │   │   ├── BedsideTable_Diffuse.png
+│   │   │   ├── BedsideTable.mtl
+│   │   │   ├── BedsideTable_Normal.png
+│   │   │   ├── BedsideTable.obj
+│   │   │   ├── BedsideTable.png
+│   │   │   └── BedsideTable_SpecGloss.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── BedTable
+│   │   ├── meshes
+│   │   │   ├── BedTable_Col.mtl
+│   │   │   ├── BedTable_Col.obj
+│   │   │   ├── BedTable_Diffuse.png
+│   │   │   ├── BedTable.mtl
+│   │   │   ├── BedTable_Normal.png
+│   │   │   ├── BedTable.obj
+│   │   │   ├── BedTable.png
+│   │   │   └── BedTable_SpecGloss.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── BloodPressureMonitor
+│   │   ├── meshes
+│   │   │   ├── BloodPressureMonitor_Col.mtl
+│   │   │   ├── BloodPressureMonitor_Col.obj
+│   │   │   ├── BloodPressureMonitor.mtl
+│   │   │   ├── BloodPressureMonitor.obj
+│   │   │   └── BloodPressureMonitor.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── BMWCart
+│   │   ├── meshes
+│   │   │   ├── Cart_BMW_Col.mtl
+│   │   │   ├── Cart_BMW_Col.obj
+│   │   │   ├── Cart_BMW_Diffuse.png
+│   │   │   ├── Cart_BMW.mtl
+│   │   │   ├── Cart_BMW_Normal.png
+│   │   │   ├── Cart_BMW.obj
+│   │   │   ├── Cart_BMW_SpecGloss.png
+│   │   │   └── Carts_Wheels_Diffuse.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── BPCart
+│   │   ├── meshes
+│   │   │   ├── BP_BP_LP_Normal.png
+│   │   │   ├── BP_BP_LP_SpecularGloss.png
+│   │   │   ├── Cart_BP_Col.mtl
+│   │   │   ├── Cart_BP_Col.obj
+│   │   │   ├── Cart_BP_Diffuse.png
+│   │   │   ├── Cart_BP.mtl
+│   │   │   ├── Cart_BP.obj
+│   │   │   └── Carts_Wheels_Diffuse.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── CGMClassic
+│   │   ├── meshes
+│   │   │   ├── Carts_Wheels_Diffuse.png
+│   │   │   ├── CGMClassic_Diffuse.png
+│   │   │   ├── CGMClassic.mtl
+│   │   │   ├── CGMClassic.obj
+│   │   │   └── Wheels_Normal_Normal_Bump.tga
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── Chair
+│   │   ├── meshes
+│   │   │   ├── Chair_Diffuse.png
+│   │   │   ├── Chair.mtl
+│   │   │   ├── Chair_Normal.png
+│   │   │   ├── Chair.obj
+│   │   │   ├── Chair.png
+│   │   │   └── Chair_SpecGloss.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── database.config
+│   ├── Drawer
+│   │   ├── meshes
+│   │   │   ├── Drawer_Col.obj
+│   │   │   ├── Drawer.mtl
+│   │   │   ├── Drawer.obj
+│   │   │   └── Drawer.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── ElderLadyPatient
+│   │   ├── meshes
+│   │   │   ├── Carts_Wheels_Diffuse.png
+│   │   │   ├── CGMVanguard_Diffuse.png
+│   │   │   ├── ElderFemale.mtl
+│   │   │   ├── ElderFemale.obj
+│   │   │   └── ElderFPatient_color.jpg
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── ElderMalePatient
+│   │   ├── meshes
+│   │   │   ├── Carts_Wheels_Diffuse.png
+│   │   │   ├── CGMVanguard_Diffuse.png
+│   │   │   ├── ElderMale_color1.jpg
+│   │   │   ├── ElderMalePatient.mtl
+│   │   │   ├── ElderMalePatient.obj
+│   │   │   └── towel1.jpg
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── FemaleVisitor
+│   │   ├── meshes
+│   │   │   ├── FemaleVisitor_Col.mtl
+│   │   │   ├── FemaleVisitor_Col.obj
+│   │   │   ├── FemaleVisitor.mtl
+│   │   │   ├── FemaleVisitor.obj
+│   │   │   ├── FemaleVisitor.png
+│   │   │   └── Handbag.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── FemaleVisitorSit
+│   │   ├── meshes
+│   │   │   ├── FemaleVisitorSit_Col.mtl
+│   │   │   ├── FemaleVisitorSit_Col.obj
+│   │   │   ├── FemaleVisitorSit.mtl
+│   │   │   ├── FemaleVisitorSit.obj
+│   │   │   ├── FemaleVisitorSit.png
+│   │   │   └── HandbagBlack.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── InstrumentCart1
+│   │   ├── meshes
+│   │   │   ├── InstrumentCart1.mtl
+│   │   │   ├── InstrumentCart1.obj
+│   │   │   └── texture.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── InstrumentCart2
+│   │   ├── meshes
+│   │   │   ├── InstrumentCart2.mtl
+│   │   │   ├── InstrumentCart2.obj
+│   │   │   └── texture.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── IVStand
+│   │   ├── meshes
+│   │   │   ├── Carts_Wheels_Diffuse.png
+│   │   │   ├── IVStand_Diffuse.png
+│   │   │   ├── IVStand.mtl
+│   │   │   └── IVStand.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── KitchenSink
+│   │   ├── meshes
+│   │   │   ├── kitchenSink.mtl
+│   │   │   └── kitchenSink.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── MalePatientBed
+│   │   ├── meshes
+│   │   │   ├── Carts_Wheels_Diffuse.png
+│   │   │   ├── CGMVanguard_Diffuse.png
+│   │   │   ├── MalePatientBed.mtl
+│   │   │   ├── MalePatientBed.obj
+│   │   │   ├── PatientM.png
+│   │   │   ├── texture.png
+│   │   │   └── towel1.jpg
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── MaleVisitorOnPhone
+│   │   ├── meshes
+│   │   │   ├── MaleVisitor.png
+│   │   │   ├── MaleVisitorStatic_Col.mtl
+│   │   │   ├── MaleVisitorStatic_Col.obj
+│   │   │   ├── MaleVisitorStatic.mtl
+│   │   │   ├── MaleVisitorStatic.obj
+│   │   │   └── Phone.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── MaleVisitorSit
+│   │   ├── meshes
+│   │   │   ├── MaleVisitorSit_Col.mtl
+│   │   │   ├── MaleVisitorSit_Col.obj
+│   │   │   ├── MaleVisitorSit.mtl
+│   │   │   ├── MaleVisitorSit.obj
+│   │   │   ├── MaleVisitorSit.png
+│   │   │   └── Phone.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── MetalCabinet
+│   │   ├── meshes
+│   │   │   ├── MetalCabinet.mtl
+│   │   │   ├── MetalCabinet.obj
+│   │   │   └── MetalCabinet.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── MopCart3
+│   │   ├── meshes
+│   │   │   ├── Blue.png
+│   │   │   ├── Cart.png
+│   │   │   ├── Cloth.png
+│   │   │   ├── Duster.png
+│   │   │   ├── Glove.png
+│   │   │   ├── MopCart3.mtl
+│   │   │   ├── MopCart3.obj
+│   │   │   ├── Mop.png
+│   │   │   ├── Parcel.png
+│   │   │   ├── Plastic.png
+│   │   │   ├── Red.png
+│   │   │   ├── Sign.png
+│   │   │   └── Spray.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── OfficeChairBlack
+│   │   ├── meshes
+│   │   │   ├── OfficeChairBlack_Col.mtl
+│   │   │   ├── OfficeChairBlack_Col.obj
+│   │   │   ├── OfficeChairBlack.mtl
+│   │   │   ├── OfficeChairBlack.obj
+│   │   │   └── OfficeChairBlack.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       ├── 5.png
+│   │       └── meta
+│   │           ├── 1.png
+│   │           ├── 2.png
+│   │           ├── 3.png
+│   │           ├── 4.png
+│   │           └── 5.png
+│   ├── ParkingTrolleyMax
+│   │   ├── meshes
+│   │   │   ├── ParkingTrolleyMax_Diffuse.png
+│   │   │   ├── ParkingTrolleyMax.mtl
+│   │   │   └── ParkingTrolleyMax.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── ParkingTrolleyMin
+│   │   ├── meshes
+│   │   │   ├── bag.png
+│   │   │   ├── potato.png
+│   │   │   ├── texture.png
+│   │   │   ├── trolleymin.mtl
+│   │   │   └── trolleymin.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── PatientFSit
+│   │   ├── meshes
+│   │   │   ├── PatientFPurple.png
+│   │   │   ├── PatientFSit_Col.mtl
+│   │   │   ├── PatientFSit_Col.obj
+│   │   │   ├── PatientFSit.mtl
+│   │   │   └── PatientFSit.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── PatientWheelChair
+│   │   ├── meshes
+│   │   │   ├── PatientWheelChair_Col.mtl
+│   │   │   ├── PatientWheelChair_Col.obj
+│   │   │   ├── PatientWheelChair_Diffuse.png
+│   │   │   ├── PatientWheelChair.mtl
+│   │   │   └── PatientWheelChair.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── PotatoChipChair
+│   │   ├── meshes
+│   │   │   ├── PotatoChipChair_Col.mtl
+│   │   │   ├── PotatoChipChair_Col.obj
+│   │   │   ├── PotatoChipChairDiffuse.png
+│   │   │   ├── PotatoChipChair.mtl
+│   │   │   └── PotatoChipChair.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── Scrubs
+│   │   ├── meshes
+│   │   │   ├── Scrubs_Col.mtl
+│   │   │   ├── Scrubs_Col.obj
+│   │   │   ├── ScrubsFemaleDiffuse.png
+│   │   │   ├── scrubs.mtl
+│   │   │   └── scrubs.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── Shower
+│   │   ├── meshes
+│   │   │   ├── ShowerDiffuse.png
+│   │   │   ├── Shower.mtl
+│   │   │   └── Shower.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── StorageRack
+│   │   ├── meshes
+│   │   │   ├── StorageRack.mtl
+│   │   │   ├── StorageRack.obj
+│   │   │   └── StorageRack.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── StorageRackCovered
+│   │   ├── meshes
+│   │   │   ├── StorageRackCovered.mtl
+│   │   │   ├── StorageRackCovered.obj
+│   │   │   └── StorageRackCovered.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── StorageRackCoverOpen
+│   │   ├── meshes
+│   │   │   ├── StorageRackCoverOpen.mtl
+│   │   │   ├── StorageRackCoverOpen.obj
+│   │   │   └── StorageRackCoverOpen.png
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── SurgicalTrolley
+│   │   ├── meshes
+│   │   │   ├── texture.png
+│   │   │   ├── trolley.mtl
+│   │   │   └── trolley.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── SurgicalTrolleyMed
+│   │   ├── meshes
+│   │   │   ├── SurgicalTrolleyMed_Col.mtl
+│   │   │   ├── SurgicalTrolleyMed_Col.obj
+│   │   │   ├── SurgicalTrolleyMed_Diffuse.png
+│   │   │   ├── SurgicalTrolleyMed.mtl
+│   │   │   └── SurgicalTrolleyMed.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── Toilet
+│   │   ├── meshes
+│   │   │   ├── toilet.mtl
+│   │   │   └── toilet.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── TrolleyBed
+│   │   ├── meshes
+│   │   │   ├── TrolleyBed_Diffuse.png
+│   │   │   ├── TrolleyBed.mtl
+│   │   │   └── TrolleyBed.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── TrolleyBedPatient
+│   │   ├── meshes
+│   │   │   ├── PatientF.png
+│   │   │   ├── TrolleyBed_Diffuse.png
+│   │   │   ├── TrolleyBedPatient.mtl
+│   │   │   └── TrolleyBedPatient.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── VendingMachine
+│   │   ├── meshes
+│   │   │   ├── VendingMachine_Diffuse.png
+│   │   │   ├── VendingMachine.mtl
+│   │   │   └── VendingMachine.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── VisitorKidSit
+│   │   ├── meshes
+│   │   │   ├── Book.png
+│   │   │   ├── VisitorKidGreen.png
+│   │   │   ├── VisitorKidSit_Col.mtl
+│   │   │   ├── VisitorKidSit_Col.obj
+│   │   │   ├── VisitorKidSit.mtl
+│   │   │   └── VisitorKidSit.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   ├── WhiteChipChair
+│   │   ├── meshes
+│   │   │   ├── WhiteChipChair_Col.mtl
+│   │   │   ├── WhiteChipChair_Col.obj
+│   │   │   ├── WhiteChipChairDiffuse.png
+│   │   │   ├── WhiteChipChair.mtl
+│   │   │   └── WhiteChipChair.obj
+│   │   ├── model.config
+│   │   ├── model.sdf
+│   │   └── thumbnails
+│   │       ├── 1.png
+│   │       ├── 2.png
+│   │       ├── 3.png
+│   │       ├── 4.png
+│   │       └── 5.png
+│   └── XRayMachine
+│       ├── meshes
+│       │   ├── XRayMachine_Col.mtl
+│       │   ├── XRayMachine_Col.obj
+│       │   ├── XRayMachine.mtl
+│       │   ├── XRayMachine.obj
+│       │   └── XRayMachine.png
+│       ├── model.config
+│       ├── model.sdf
+│       └── thumbnails
+│           ├── 1.png
+│           ├── 2.png
+│           ├── 3.png
+│           ├── 4.png
+│           └── 5.png
+├── fuel_utility.py
+├── launch
+│   ├── hospital.launch.py
+│   └── view_hospital.launch.py
+├── LICENSE
+├── models
+│   ├── aws_robomaker_hospital_curtain_closed_01
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_curtain_closed_01_collision.dae
+│   │   │   ├── aws_robomaker_hospital_curtain_closed_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtain_closed_01_low.png
+│   │   │   ├── aws_robomaker_hospital_curtain_closed_01_visual.dae
+│   │   │   ├── aws_robomaker_hospital_curtain_closed_01_visual_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtain_closed_01_visual.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_low.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_visual_normal.png
+│   │   │   └── aws_robomaker_hospital_curtainrail_01_visual.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_curtain_half_open_01
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_curtain_half_open_01_collision.dae
+│   │   │   ├── aws_robomaker_hospital_curtain_half_open_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtain_half_open_01_low.png
+│   │   │   ├── aws_robomaker_hospital_curtain_half_open_01_visual.dae
+│   │   │   ├── aws_robomaker_hospital_curtain_half_open_01_visual_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtain_half_open_01_visual.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_low.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_visual_normal.png
+│   │   │   └── aws_robomaker_hospital_curtainrail_01_visual.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_curtain_open_01
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_curtain_open_01_collision.dae
+│   │   │   ├── aws_robomaker_hospital_curtain_open_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtain_open_01_low.png
+│   │   │   ├── aws_robomaker_hospital_curtain_open_01_visual.dae
+│   │   │   ├── aws_robomaker_hospital_curtain_open_01_visual_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtain_open_01_visual.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_low.png
+│   │   │   ├── aws_robomaker_hospital_curtainrail_01_visual_normal.png
+│   │   │   └── aws_robomaker_hospital_curtainrail_01_visual.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_elevator_01_car
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_elevator_01_car_collision.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_car_low.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_car_visual.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_elevator_01_low.png
+│   │   │   ├── aws_robomaker_hospital_elevator_01_visual_normal.png
+│   │   │   └── aws_robomaker_hospital_elevator_01_visual.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_elevator_01_door
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_elevator_01_door_collision.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_door_low.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_door_visual.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_elevator_01_low.png
+│   │   │   ├── aws_robomaker_hospital_elevator_01_visual_normal.png
+│   │   │   └── aws_robomaker_hospital_elevator_01_visual.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_elevator_01_portal
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_elevator_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_elevator_01_low.png
+│   │   │   ├── aws_robomaker_hospital_elevator_01_portal_collision.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_portal_low.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_portal_visual.dae
+│   │   │   ├── aws_robomaker_hospital_elevator_01_visual_normal.png
+│   │   │   └── aws_robomaker_hospital_elevator_01_visual.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_floor_01_ceiling
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_floor_01_ceiling_collision.dae
+│   │   │   ├── aws_robomaker_hospital_floor_01_ceiling_normal.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_ceiling.png
+│   │   │   └── aws_robomaker_hospital_floor_01_ceiling_visual.dae
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_floor_01_floor
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_floor_01_floor_collision.dae
+│   │   │   ├── aws_robomaker_hospital_floor_01_floor_normal.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_floor.png
+│   │   │   └── aws_robomaker_hospital_floor_01_floor_visual.dae
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_floor_01_walls
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_floor_01_bumprail.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_doorframes_big.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_doorframes_small.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_doorsign.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_handrail.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_stairs.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_walls_collision.dae
+│   │   │   ├── aws_robomaker_hospital_floor_01_walls.png
+│   │   │   ├── aws_robomaker_hospital_floor_01_walls_visual.dae
+│   │   │   └── aws_robomaker_hospital_floor_01_windows.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_floor_02_ceiling
+│   │   ├── materials
+│   │   │   └── model.sdf
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_floor_02_ceiling_collision.dae
+│   │   │   ├── aws_robomaker_hospital_floor_02_ceiling_normal.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_ceiling.png
+│   │   │   └── aws_robomaker_hospital_floor_02_ceiling_visual.dae
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_floor_02_floor
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_floor_02_floor_collision.dae
+│   │   │   ├── aws_robomaker_hospital_floor_02_floor_normal.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_floor.png
+│   │   │   └── aws_robomaker_hospital_floor_02_floor_visual.dae
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_floor_02_walls
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_floor_02_bumprail.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_doorframes_big.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_doorframes_small.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_doorsign.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_handrail.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_stairs.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_walls_collision.dae
+│   │   │   ├── aws_robomaker_hospital_floor_02_walls.png
+│   │   │   ├── aws_robomaker_hospital_floor_02_walls_visual.dae
+│   │   │   └── aws_robomaker_hospital_floor_02_windows.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_hospitalsign_01
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_hospitalsign_01_collision.dae
+│   │   │   ├── aws_robomaker_hospital_hospitalsign_01_normal.png
+│   │   │   ├── aws_robomaker_hospital_hospitalsign_01.png
+│   │   │   └── aws_robomaker_hospital_hospitalsign_01_visual.dae
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_nursesstation_01
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_nursesstation_01_collision.dae
+│   │   │   ├── aws_robomaker_hospital_nursesstation_01_low.dae
+│   │   │   ├── aws_robomaker_hospital_nursesstation_01_low_normal.png
+│   │   │   ├── aws_robomaker_hospital_nursesstation_01_low.png
+│   │   │   ├── aws_robomaker_hospital_nursesstation_01_visual.dae
+│   │   │   ├── aws_robomaker_hospital_nursesstation_01_visual_normal.png
+│   │   │   └── aws_robomaker_hospital_nursesstation_01_visual.png
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_hospital_ramp_01
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_hospital_ramp_01_collision.dae
+│   │   │   ├── aws_robomaker_hospital_ramp_01_normal.png
+│   │   │   ├── aws_robomaker_hospital_ramp_01.png
+│   │   │   └── aws_robomaker_hospital_ramp_01_visual.dae
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_Carpet_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_Carpet_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_Carpet_01_collision.DAE
+│   │   │   └── aws_Carpet_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_CoffeeTable_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_CoffeeTable_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_CoffeeTable_01_collision.DAE
+│   │   │   └── aws_CoffeeTable_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_KitchenCabinet_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_KitchenCabinet_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_KitchenCabinet_01_collision.DAE
+│   │   │   └── aws_KitchenCabinet_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitA_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitA_01.png
+│   │   │       └── aws_PortraitA_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitA_01_collision.DAE
+│   │   │   └── aws_PortraitA_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitA_02
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitA_01.png
+│   │   │       └── aws_PortraitA_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitA_01_collision.DAE
+│   │   │   └── aws_PortraitA_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitB_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitB_01.png
+│   │   │       └── aws_PortraitB_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitB_01_collision.DAE
+│   │   │   └── aws_PortraitB_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitB_02
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitB_01.png
+│   │   │       └── aws_PortraitB_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitB_01_collision.DAE
+│   │   │   └── aws_PortraitB_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitB_03
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitB_01.png
+│   │   │       └── aws_PortraitB_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitB_01_collision.DAE
+│   │   │   └── aws_PortraitB_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitC_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitC_01.png
+│   │   │       └── aws_PortraitC_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitC_01_collision.DAE
+│   │   │   └── aws_PortraitC_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitD_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitD_01.png
+│   │   │       └── aws_PortraitD_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitD_01_collision.DAE
+│   │   │   └── aws_PortraitD_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitD_02
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitD_01.png
+│   │   │       └── aws_PortraitD_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitD_01_collision.DAE
+│   │   │   └── aws_PortraitD_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitE_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitE_01.png
+│   │   │       └── aws_PortraitE_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitE_01_collision.DAE
+│   │   │   └── aws_PortraitE_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_PortraitE_02
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_PortraitE_01.png
+│   │   │       └── aws_PortraitE_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_PortraitE_01_collision.DAE
+│   │   │   └── aws_PortraitE_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_Refrigerator_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_Refrigerator_01.png
+│   │   │       └── aws_Refrigerator_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_Refrigerator_01_collision.DAE
+│   │   │   ├── aws_Refrigerator_01.DAE
+│   │   │   └── aws_Refrigerator_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_Sofa_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_Sofa_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_Sofa_01_collision.DAE
+│   │   │   ├── aws_Sofa_01.DAE
+│   │   │   └── aws_Sofa_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_SofaB_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_SofaB_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_SofaB_01_collision.DAE
+│   │   │   └── aws_SofaB_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_Trash_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_Trash_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_Trash_01_collision.DAE
+│   │   │   └── aws_Trash_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_residential_TV_02
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_TV_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_TV_01_collision.DAE
+│   │   │   └── aws_TV_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_retail_BookshelfB_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_BookshelfB_01.png
+│   │   │       └── aws_BookshelfB_02.png
+│   │   ├── meshes
+│   │   │   ├── aws_BookshelfB_01_collision.DAE
+│   │   │   └── aws_BookshelfB_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_retail_Computer_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       └── aws_Computer_01.png
+│   │   ├── meshes
+│   │   │   ├── aws_Computer_01_collision.DAE
+│   │   │   └── aws_Computer_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   ├── aws_robomaker_warehouse_ClutteringA_01
+│   │   ├── materials
+│   │   │   └── textures
+│   │   │       ├── aws_robomaker_warehouse_ClutteringA_01.png
+│   │   │       ├── aws_robomaker_warehouse_ClutteringA_02.png
+│   │   │       └── aws_robomaker_warehouse_ClutteringA_03.png
+│   │   ├── meshes
+│   │   │   ├── aws_robomaker_warehouse_ClutteringA_01_collision.DAE
+│   │   │   └── aws_robomaker_warehouse_ClutteringA_01_visual.DAE
+│   │   ├── model.config
+│   │   └── model.sdf
+│   └── aws_robomaker_warehouse_ClutteringC_01
+│       ├── materials
+│       │   └── textures
+│       │       ├── aws_robomaker_warehouse_ClutteringC_01.png
+│       │       └── aws_robomaker_warehouse_ClutteringC_02.png
+│       ├── meshes
+│       │   ├── aws_robomaker_warehouse_ClutteringC_01_collision.DAE
+│       │   └── aws_robomaker_warehouse_ClutteringC_01_visual.DAE
+│       ├── model.config
+│       └── model.sdf
+├── NOTICE
+├── package.xml
+├── photos
+│   ├── PortraitA_01.jpg
+│   ├── PortraitC_01.jpg
+│   ├── PortraitD_01.jpg
+│   ├── PortraitD_02.jpg
+│   ├── PortraitE_01.jpg
+│   └── PortraitE_02.jpg
+├── README.md
+├── requirements.txt
+├── setup.sh
+├── tree.txt
+└── worlds
+    ├── hospital_three_floors.world
+    ├── hospital_two_floors.world
+    └── hospital.world
+
+258 directories, 813 files

@@ -29,7 +29,7 @@ windows:
       panes:
         - ros2 launch mrs_uav_gazebo_simulator simulation.launch.py gz_headless:=false gz_verbose:=true world_file:=$WORLD_FILE
         - |
-          waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-bluefox-camera-front --pos 0 0 0.5 0'}"
+          waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-bluefox-camera-front --pos 3 3 0.5 0'}"
   - px4_api:
       layout: tiled
       panes:
