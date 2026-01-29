@@ -73,10 +73,11 @@ windows:
             model:=vint \
             image_topic:=/uav1/bluefox_front/image_raw \
             waypoint_topic:=/uav1/vint/waypoint \
+            debug:=true \
             predicted_path_topic:=/uav1/vint/viz/predicted_path \
             markers_topic:=/uav1/vint/viz/markers \
             annotated_image_topic:=/uav1/vint/viz/annotated_image \
-            enable_control:=true \
+            enable_control:=false \
             world_frame:=uav1/gps_garmin_origin \
             fcu_frame:=uav1/fcu \
             camera_rotation_deg:=0.0 \

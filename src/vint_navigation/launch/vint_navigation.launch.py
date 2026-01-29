@@ -37,6 +37,12 @@ def generate_launch_description():
         default_value='/vint/waypoint',
         description='Output waypoint topic'
     )
+    
+    debug_arg = DeclareLaunchArgument(
+        'debug',
+        default_value='false',
+        description='Enable debug logging in navigator node'
+    )
 
     predicted_path_topic_arg = DeclareLaunchArgument(
         'predicted_path_topic',
@@ -120,6 +126,7 @@ def generate_launch_description():
                 'model': LaunchConfiguration('model'),
                 'image_topic': LaunchConfiguration('image_topic'),
                 'waypoint_topic': LaunchConfiguration('waypoint_topic'),
+                'debug': LaunchConfiguration('debug'),
             }
         ],
         emulate_tty=True,
@@ -171,6 +178,7 @@ def generate_launch_description():
         model_arg,
         image_topic_arg,
         waypoint_topic_arg,
+        debug_arg,
         predicted_path_topic_arg,
         markers_topic_arg,
         annotated_image_topic_arg,

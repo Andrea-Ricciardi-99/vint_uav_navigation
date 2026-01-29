@@ -36,6 +36,7 @@ class ViNTNavigatorNode(Node):
         self.declare_parameter('waypoint_topic', '/vint/waypoint')
         self.declare_parameter('sampled_actions_topic', '/vint/sampled_actions')
         self.declare_parameter('goal_reached_topic', '/vint/goal_reached')
+        self.declare_parameter('debug', True)
         
         # Get parameters
         self.model_name = self.get_parameter('model').value
@@ -45,6 +46,7 @@ class ViNTNavigatorNode(Node):
         self.close_threshold = self.get_parameter('close_threshold').value
         self.radius = self.get_parameter('radius').value
         self.num_samples = self.get_parameter('num_samples').value
+        self.debug = self.get_parameter('debug').value
         
         # Get package paths
         pkg_share = get_package_share_directory('vint_navigation')
@@ -191,10 +193,11 @@ class ViNTNavigatorNode(Node):
             # Find closest node
             min_dist_idx = np.argmin(distances)
 
-            # self.get_logger().info(
-            #     f"Nodes [{start}:{end+1}] Dist: {distances.flatten()} Min@{min_dist_idx}",
-            #     throttle_duration_sec=0.5
-            # )
+            if (self.debug):
+                self.get_logger().info(
+                    f"Nodes [{start}:{end+1}] Dist: {distances.flatten()} Min@{min_dist_idx}",
+                    throttle_duration_sec=0.5
+                )
             
             # Choose subgoal and output waypoint
             if distances[min_dist_idx] > self.close_threshold:
