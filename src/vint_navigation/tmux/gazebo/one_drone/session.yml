@@ -69,18 +69,18 @@ windows:
       panes:
         - |
           waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
-            topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital \
+            topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital\
             model:=vint \
             image_topic:=/uav1/bluefox_front/image_raw \
             waypoint_topic:=/uav1/vint/waypoint \
-            debug:=true \
+            debug:=false \
             predicted_path_topic:=/uav1/vint/viz/predicted_path \
             markers_topic:=/uav1/vint/viz/markers \
             annotated_image_topic:=/uav1/vint/viz/annotated_image \
-            enable_control:=false \
+            enable_control:=true \
             world_frame:=uav1/gps_garmin_origin \
             fcu_frame:=uav1/fcu \
-            camera_rotation_deg:=0.0 \
+            camera_rotation_deg:=90.0 \
             update_rate:=4.0 \
             use_heading:=true
   # - create_topomap:

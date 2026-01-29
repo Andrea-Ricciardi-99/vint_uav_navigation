@@ -105,21 +105,80 @@ def load_model(
     return model
 
 
+# def msg_to_pil(msg: Image) -> PILImage.Image:
+#     """Convert ROS Image message to PIL Image - EXACT same as ROS1 version"""
+#     img = np.frombuffer(msg.data, dtype=np.uint8).reshape(
+#         msg.height, msg.width, -1)
+#     pil_image = PILImage.fromarray(img)
+#     return pil_image
+
+
+# def pil_to_msg(pil_img: PILImage.Image, encoding="mono8") -> Image:
+#     """Convert PIL Image to ROS Image message - EXACT same as ROS1 version"""
+#     img = np.asarray(pil_img)  
+#     ros_image = Image(encoding=encoding)
+#     ros_image.height, ros_image.width, _ = img.shape
+#     ros_image.data = img.ravel().tobytes() 
+#     ros_image.step = ros_image.width
+#     return ros_image
+
 def msg_to_pil(msg: Image) -> PILImage.Image:
-    """Convert ROS Image message to PIL Image - EXACT same as ROS1 version"""
-    img = np.frombuffer(msg.data, dtype=np.uint8).reshape(
-        msg.height, msg.width, -1)
-    pil_image = PILImage.fromarray(img)
+    """Convert ROS Image message to PIL Image - handles various encodings"""
+    # Determine the number of channels based on encoding
+    if msg.encoding in ['mono8', 'mono16']:
+        # Grayscale image
+        if msg.encoding == 'mono8':
+            img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width)
+        else:  # mono16
+            img = np.frombuffer(msg.data, dtype=np.uint16).reshape(msg.height, msg.width)
+        pil_image = PILImage.fromarray(img, mode='L')
+        # Convert grayscale to RGB for ViNT
+        pil_image = pil_image.convert('RGB')
+    elif msg.encoding in ['rgb8', 'bgr8']:
+        # Color image
+        img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, 3)
+        if msg.encoding == 'bgr8':
+            # Convert BGR to RGB
+            img = img[:, :, ::-1]
+        pil_image = PILImage.fromarray(img, mode='RGB')
+    elif msg.encoding == 'rgba8':
+        img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, 4)
+        pil_image = PILImage.fromarray(img, mode='RGBA')
+        pil_image = pil_image.convert('RGB')  # Convert to RGB for ViNT
+    elif msg.encoding == 'bgra8':
+        img = np.frombuffer(msg.data, dtype=np.uint8).reshape(msg.height, msg.width, 4)
+        img = img[:, :, [2, 1, 0, 3]]  # BGRA to RGBA
+        pil_image = PILImage.fromarray(img, mode='RGBA')
+        pil_image = pil_image.convert('RGB')
+    else:
+        raise ValueError(f"Unsupported encoding: {msg.encoding}")
+    
     return pil_image
 
 
-def pil_to_msg(pil_img: PILImage.Image, encoding="mono8") -> Image:
-    """Convert PIL Image to ROS Image message - EXACT same as ROS1 version"""
-    img = np.asarray(pil_img)  
-    ros_image = Image(encoding=encoding)
-    ros_image.height, ros_image.width, _ = img.shape
-    ros_image.data = img.ravel().tobytes() 
-    ros_image.step = ros_image.width
+def pil_to_msg(pil_img: PILImage.Image, encoding="rgb8") -> Image:
+    """Convert PIL Image to ROS Image message"""
+    # Convert PIL image to numpy array
+    if encoding == "mono8":
+        if pil_img.mode != 'L':
+            pil_img = pil_img.convert('L')
+        img = np.asarray(pil_img)
+        ros_image = Image(encoding=encoding)
+        ros_image.height, ros_image.width = img.shape
+        ros_image.step = ros_image.width
+    elif encoding in ["rgb8", "bgr8"]:
+        if pil_img.mode != 'RGB':
+            pil_img = pil_img.convert('RGB')
+        img = np.asarray(pil_img)
+        if encoding == "bgr8":
+            img = img[:, :, ::-1]  # RGB to BGR
+        ros_image = Image(encoding=encoding)
+        ros_image.height, ros_image.width, _ = img.shape
+        ros_image.step = ros_image.width * 3
+    else:
+        raise ValueError(f"Unsupported encoding: {encoding}")
+    
+    ros_image.data = img.ravel().tobytes()
     return ros_image
 
 

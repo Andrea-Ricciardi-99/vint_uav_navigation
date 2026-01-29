@@ -1,0 +1,80 @@
+# do not modify these
+root: ./
+name: simulation
+socket_name: mrs
+attach: false
+tmux_options: -f /etc/ctu-mrs/tmux.conf
+# you can modify these
+pre_window:
+  - source ./../../../../../install/setup.bash
+  - source ./../../../../../install/local_setup.bash
+  - export UAV_NAME=uav1
+  - export RUN_TYPE=simulation
+  - export RMW_IMPLEMENTATION=rmw_zenoh_cpp
+  - export USE_SIM_TIME="true"
+  
+startup_window: status
+windows:
+  - zenoh_router:
+      layout: tiled
+      panes:
+        - ros2 run rmw_zenoh_cpp rmw_zenohd
+  - rosbag_player:
+      layout: tiled
+      panes:
+        - ros2 bag play ./rosbags/exp_21 --clock --loop
+  # - point_to_path:
+  #     layout: tiled
+  #     panes:
+  #       - python3 ./scripts/position_to_path_node.py
+  - vint_path:
+      layout: tiled
+      panes:
+        - python3 ./scripts/vint_path_visualizer.py > vint_path.log 2>&1
+  - rviz:
+      layout: tiled
+      panes:
+        - rviz2 -d rviz.rviz
+  - vint_navigation:
+      layout: tiled
+      panes:
+        - |
+          ros2 launch vint_navigation vint_navigation.launch.py \
+            topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/exp_21_less\
+            model:=vint \
+            image_topic:=/alphasense/cam0/image_raw \
+            waypoint_topic:=/vint/waypoint \
+            debug:=false \
+            predicted_path_topic:=/vint/viz/predicted_path \
+            markers_topic:=/vint/viz/markers \
+            annotated_image_topic:=/vint/viz/annotated_image \
+            enable_control:=false \
+            world_frame:=uav1/gps_garmin_origin \
+            fcu_frame:=uav1/fcu \
+            camera_rotation_deg:=90.0 \
+            update_rate:=4.0 \
+            use_heading:=true
+  # - create_topomap:
+  #     layout: tiled
+  #     panes:
+  #       - |
+  #         ros2 launch vint_navigation create_topomap.launch.py \
+  #           topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps \
+  #           topomap_name:=exp_21 \
+  #           image_topic:=/alphasense/cam0/image_raw \
+  #           dt:=5.0
+  # - start_recording_topomap:
+  #     layout: tiled
+  #     panes: 
+  #       - read -p "Press Enter to start topomap recording...";
+  #         ros2 service call /uav1/topomap_creator/start_recording std_srvs/srv/Trigger
+  # - stop_recording_topomap:
+  #     layout: tiled
+  #     panes:
+  #       - read -p "Press Enter to stop topomap recording...";
+  #         ros2 service call /uav1/topomap_creator/stop_recording std_srvs/srv/Trigger
+
+
+
+          
+            

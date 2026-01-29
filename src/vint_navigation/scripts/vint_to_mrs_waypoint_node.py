@@ -70,7 +70,7 @@ class ViNTtoMRSWaypointNode(Node):
         self.declare_parameter('uav_name', 'uav1')
         self.declare_parameter('world_frame', 'world')
         self.declare_parameter('fcu_frame', '')
-        self.declare_parameter('camera_rotation_deg', 0.0)
+        self.declare_parameter('camera_rotation_deg', 90.0)
         self.declare_parameter('use_heading', True)
         self.declare_parameter('waypoint_height_offset', 0.0)
         self.declare_parameter('scale_factor', 1.0)
@@ -87,26 +87,37 @@ class ViNTtoMRSWaypointNode(Node):
         self.scale_factor = self.get_parameter('scale_factor').value
         self.update_rate = self.get_parameter('update_rate').value
         
-        # Set up rotation matrix from camera to FCU frame
-        # Camera frame: x=forward (same as FCU), y=right (opposite of FCU left)
-        # FCU frame: x=forward, y=left
-        # Transformation: dx_fcu = dx_camera, dy_fcu = -dy_camera
-        
+        # The camera_rotation_deg parameter encodes the ViNT→FCU transformation
+        # 0° = standard alignment [[1, 0], [0, -1]]
+        # 90° = your setup [[0, -1], [-1, 0]]
+
         if abs(self.camera_rotation_deg) < 0.1:
-            # No rotation, just y-axis flip (camera y points right, FCU y points left)
+            # Standard camera alignment (if you had different camera)
             self.rotation_matrix = np.array([
                 [ 1,  0],
                 [ 0, -1]
             ])
         elif abs(self.camera_rotation_deg - 90.0) < 0.1:
-            # 90° CW rotation case (if needed later)
+            # Your ViNT→FCU transformation (axes swapped and negated)
             self.rotation_matrix = np.array([
                 [ 0, -1],
                 [-1,  0]
             ])
+        elif abs(self.camera_rotation_deg - 180.0) < 0.1:
+            # 180° case
+            self.rotation_matrix = np.array([
+                [-1,  0],
+                [ 0,  1]
+            ])
+        elif abs(self.camera_rotation_deg - 270.0) < 0.1:
+            # 270° case
+            self.rotation_matrix = np.array([
+                [ 0,  1],
+                [ 1,  0]
+            ])
         else:
-            # General case: rotate by -camera_rotation to go from camera to FCU
-            theta_rad = -np.deg2rad(self.camera_rotation_deg)
+            # General rotation (arbitrary angle)
+            theta_rad = np.deg2rad(self.camera_rotation_deg)
             cos_theta = np.cos(theta_rad)
             sin_theta = np.sin(theta_rad)
             self.rotation_matrix = np.array([
@@ -195,88 +206,70 @@ class ViNTtoMRSWaypointNode(Node):
             self.get_logger().debug("Previous goto still pending, skipping...")
             return
         
-        # Extract ViNT waypoint components (in camera frame)
-        # ViNT: x=forward in image, y=right in image
-        dx_camera = float(self.latest_waypoint[0]) * self.scale_factor
-        dy_camera = float(self.latest_waypoint[1]) * self.scale_factor
-        dtheta_vint = float(self.latest_waypoint[2]) if len(self.latest_waypoint) > 2 else 0.0
-        
-        # Apply rotation from camera frame to fcu frame
-        waypoint_camera = np.array([dx_camera, dy_camera])
-        waypoint_fcu_2d = self.rotation_matrix @ waypoint_camera
-        
-        dx_fcu = waypoint_fcu_2d[0]
-        dy_fcu = waypoint_fcu_2d[1]
-        dz_fcu = 0.0  # ViNT doesn't predict altitude
-        
-        self.get_logger().debug(
-            f"Camera frame: [{dx_camera:.3f}, {dy_camera:.3f}] → "
-            f"FCU frame: [{dx_fcu:.3f}, {dy_fcu:.3f}]"
-        )
-        
-        # Create Vector3Stamped in fcu frame
-        waypoint_fcu = Vector3Stamped()
-        waypoint_fcu.header.stamp = self.get_clock().now().to_msg()
-        waypoint_fcu.header.frame_id = self.fcu_frame
-        waypoint_fcu.vector.x = dx_fcu
-        waypoint_fcu.vector.y = dy_fcu
-        waypoint_fcu.vector.z = dz_fcu
-        
-        try:
-            # Transform from fcu to world frame using TF
-            transform = self.tf_buffer.lookup_transform(
-                self.world_frame,
-                self.fcu_frame,
-                rclpy.time.Time(),
-                timeout=Duration(seconds=0.1)
-            )
-            
-            # Transform the waypoint vector
-            waypoint_world = tf2_geometry_msgs.do_transform_vector3(
-                waypoint_fcu,
-                transform
-            )
-            
-        except TransformException as ex:
-            self.get_logger().error(
-                f'Could not transform {self.fcu_frame} to {self.world_frame}: {ex}',
-                throttle_duration_sec=1.0
-            )
-            return
-        
-        # Add transformed waypoint to current position
+        # Extract current pose
         current_pos = self.current_odom.pose.pose.position
         current_ori = self.current_odom.pose.pose.orientation
+        _, _, current_yaw = euler_from_quaternion(
+            current_ori.x, current_ori.y, current_ori.z, current_ori.w
+        )
         
-        target_x = current_pos.x + waypoint_world.vector.x
-        target_y = current_pos.y + waypoint_world.vector.y
-        target_z = current_pos.z + waypoint_world.vector.z + self.height_offset
-        
-        # Handle heading
-        if self.use_heading and abs(dtheta_vint) > 0.01:
-            # Convert current quaternion to yaw
-            _, _, current_yaw = euler_from_quaternion(
-                current_ori.x, current_ori.y, current_ori.z, current_ori.w
-            )
-            
-            # ViNT's heading is also in camera frame
-            # Need to account for camera rotation
-            target_yaw = current_yaw + dtheta_vint - np.deg2rad(self.camera_rotation_deg)
+        # Extract ViNT waypoint components (in camera frame)
+        dx_camera = float(self.latest_waypoint[0]) * self.scale_factor
+        dy_camera = float(self.latest_waypoint[1]) * self.scale_factor
+        hx_camera = float(self.latest_waypoint[2]) if len(self.latest_waypoint) > 2 else 1.0
+        hy_camera = float(self.latest_waypoint[3]) if len(self.latest_waypoint) > 3 else 0.0
+
+        # STEP 1: Camera frame → FCU frame (static rotation)
+        waypoint_camera = np.array([dx_camera, dy_camera])
+        waypoint_fcu = self.rotation_matrix @ waypoint_camera
+        dx_fcu = waypoint_fcu[0]
+        dy_fcu = waypoint_fcu[1]
+
+        # Also rotate the heading vector from camera frame to FCU frame
+        heading_camera = np.array([hx_camera, hy_camera])
+        heading_fcu = self.rotation_matrix @ heading_camera
+        hx_fcu = heading_fcu[0]
+        hy_fcu = heading_fcu[1]
+
+        # STEP 2: FCU frame → World frame (dynamic rotation by current yaw)
+        cos_yaw = np.cos(current_yaw)
+        sin_yaw = np.sin(current_yaw)
+
+        dx_world = dx_fcu * cos_yaw - dy_fcu * sin_yaw
+        dy_world = dx_fcu * sin_yaw + dy_fcu * cos_yaw
+
+        # Also rotate the heading vector to world frame
+        hx_world = hx_fcu * cos_yaw - hy_fcu * sin_yaw
+        hy_world = hx_fcu * sin_yaw + hy_fcu * cos_yaw
+
+        # STEP 3: Add to current position
+        target_x = current_pos.x + dx_world
+        target_y = current_pos.y + dy_world
+        target_z = current_pos.z + self.height_offset
+
+        # STEP 4: Convert heading vector to yaw angle
+        if self.use_heading:
+            heading_magnitude = np.sqrt(hx_world**2 + hy_world**2)
+            if heading_magnitude > 1e-6:  # Avoid division by zero
+                hx_world /= heading_magnitude
+                hy_world /= heading_magnitude
+                target_yaw = np.arctan2(hy_world, hx_world)
+            else:
+                target_yaw = current_yaw
         else:
-            # Keep current heading
-            _, _, target_yaw = euler_from_quaternion(
-                current_ori.x, current_ori.y, current_ori.z, current_ori.w
-            )
-        
+            target_yaw = current_yaw
+
         # Send goto command to MRS
         self.send_goto(target_x, target_y, target_z, target_yaw)
         
         self.get_logger().info(
-            f"ViNT[{dx_camera:.2f}, {dy_camera:.2f}] → "
-            f"FCU[{dx_fcu:.2f}, {dy_fcu:.2f}] → "
+            f"ViNT[{dx_camera:.2f}, {dy_camera:.2f}, {hx_camera:.2f}, {hy_camera:.2f}] → "
+            f"FCU[{dx_fcu:.2f}, {dy_fcu:.2f}, {hx_fcu:.2f}, {hy_fcu:.2f}] → "
+            f"World[{dx_world:.2f}, {dy_world:.2f}, {target_z:.2f}] → "
             f"Goto[{target_x:.2f}, {target_y:.2f}, {target_z:.2f}, {np.rad2deg(target_yaw):.1f}°]",
             throttle_duration_sec=1.0
         )
+
     
     def send_goto(self, x, y, z, yaw):
         """Send goto command to MRS"""

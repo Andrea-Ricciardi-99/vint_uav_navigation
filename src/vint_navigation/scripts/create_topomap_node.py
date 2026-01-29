@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 from PIL import Image as PILImage
 import numpy as np
+from utils import msg_to_pil
 
 
 class TopomapCreatorNode(Node):
@@ -93,15 +94,23 @@ class TopomapCreatorNode(Node):
         else:
             self.get_logger().info("Waiting for start_recording service call...")
     
+    # def image_callback(self, msg):
+    #     """Store latest image"""
+    #     # Convert ROS Image to PIL
+    #     img_array = np.frombuffer(msg.data, dtype=np.uint8).reshape(
+    #         msg.height, msg.width, -1
+    #     )
+    #     self.latest_image = PILImage.fromarray(img_array)
+    #     self.last_image_time = time.time()
+    
     def image_callback(self, msg):
         """Store latest image"""
-        # Convert ROS Image to PIL
-        img_array = np.frombuffer(msg.data, dtype=np.uint8).reshape(
-            msg.height, msg.width, -1
-        )
-        self.latest_image = PILImage.fromarray(img_array)
-        self.last_image_time = time.time()
-    
+        try:
+            self.latest_image = msg_to_pil(msg)
+            self.last_image_time = time.time()
+        except Exception as e:
+            self.get_logger().error(f"Failed to convert image: {str(e)}")
+        
     def _start_recording(self):
         """Internal method to start recording"""
         # Create topomap directory
