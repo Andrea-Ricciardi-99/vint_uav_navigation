@@ -19,6 +19,7 @@ install(PROGRAMS
   scripts/vint_visualizer_node.py
   scripts/create_topomap_node.py 
   scripts/vint_to_mrs_waypoint_node.py
+  scripts/vint_velocity_reference_generator.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

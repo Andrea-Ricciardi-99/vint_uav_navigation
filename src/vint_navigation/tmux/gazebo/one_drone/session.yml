@@ -30,6 +30,8 @@ windows:
         - ros2 launch mrs_uav_gazebo_simulator simulation.launch.py gz_headless:=false gz_verbose:=true world_file:=$WORLD_FILE
         - |
           waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-bluefox-camera-front --pos 2 10 0.5 1.56'}"
+        # - |
+        #   waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-bluefox-camera-front --pos 0 0 0.5 0'}"
   - px4_api:
       layout: tiled
       panes:
@@ -69,20 +71,10 @@ windows:
       panes:
         - |
           waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
-            topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital\
-            model:=vint \
-            image_topic:=/uav1/bluefox_front/image_raw \
-            waypoint_topic:=/uav1/vint/waypoint \
-            debug:=false \
-            predicted_path_topic:=/uav1/vint/viz/predicted_path \
-            markers_topic:=/uav1/vint/viz/markers \
-            annotated_image_topic:=/uav1/vint/viz/annotated_image \
-            enable_control:=true \
-            world_frame:=uav1/gps_garmin_origin \
-            fcu_frame:=uav1/fcu \
-            camera_rotation_deg:=90.0 \
-            update_rate:=4.0 \
-            use_heading:=true
+             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital \
+             image_topic:=/uav1/bluefox_front/image_raw \
+             enable_viz:=true \
+             enable_control:=true
   # - create_topomap:
   #     layout: tiled
   #     panes:

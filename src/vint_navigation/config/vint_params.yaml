@@ -4,10 +4,10 @@
     model: "vint"
     
     # Topics - CRITICAL: Set these for your MRS setup
-    image_topic: "/uav1/bluefox_optflow/image_raw"  # YOUR CAMERA TOPIC
-    waypoint_topic: "/vint/waypoint"
-    sampled_actions_topic: "/vint/sampled_actions"
-    goal_reached_topic: "/vint/goal_reached"
+    image_topic: "/uav1/bluefox_front/image_raw"
+    waypoint_topic: "/uav1/vint/waypoint"
+    sampled_actions_topic: "/uav1/vint/sampled_actions"
+    goal_reached_topic: "/uav1/vint/goal_reached"
     
     # Navigation parameters
     waypoint_index: 4           # Which predicted waypoint to use (0-4)

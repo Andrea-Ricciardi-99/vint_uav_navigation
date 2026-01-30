@@ -36,6 +36,7 @@ class ViNTNavigatorNode(Node):
         self.declare_parameter('waypoint_topic', '/vint/waypoint')
         self.declare_parameter('sampled_actions_topic', '/vint/sampled_actions')
         self.declare_parameter('goal_reached_topic', '/vint/goal_reached')
+        self.declare_parameter('closest_node_topic', '/vint/closest_node')
         self.declare_parameter('debug', True)
         
         # Get parameters
@@ -126,11 +127,12 @@ class ViNTNavigatorNode(Node):
         waypoint_topic = self.get_parameter('waypoint_topic').value
         sampled_actions_topic = self.get_parameter('sampled_actions_topic').value
         goal_reached_topic = self.get_parameter('goal_reached_topic').value
+        closest_node_topic = self.get_parameter('closest_node_topic').value
         
         self.waypoint_pub = self.create_publisher(Float32MultiArray, waypoint_topic, 1)
         self.sampled_actions_pub = self.create_publisher(Float32MultiArray, sampled_actions_topic, 1)
         self.goal_pub = self.create_publisher(Bool, goal_reached_topic, 1)
-        self.closest_node_pub = self.create_publisher(Int32, '/vint/closest_node', 10)
+        self.closest_node_pub = self.create_publisher(Int32, closest_node_topic, 10)
         
         # Timer for navigation loop
         timer_period = 1.0 / self.RATE

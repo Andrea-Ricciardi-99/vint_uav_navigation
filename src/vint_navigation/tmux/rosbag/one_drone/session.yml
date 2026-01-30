@@ -48,12 +48,6 @@ windows:
             predicted_path_topic:=/vint/viz/predicted_path \
             markers_topic:=/vint/viz/markers \
             annotated_image_topic:=/vint/viz/annotated_image \
-            enable_control:=false \
-            world_frame:=uav1/gps_garmin_origin \
-            fcu_frame:=uav1/fcu \
-            camera_rotation_deg:=90.0 \
-            update_rate:=4.0 \
-            use_heading:=true
   # - create_topomap:
   #     layout: tiled
   #     panes:
