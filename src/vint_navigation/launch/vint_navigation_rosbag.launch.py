@@ -28,7 +28,7 @@ def generate_launch_description():
     # UAV name must be declared FIRST (used in other arguments)
     uav_name_arg = DeclareLaunchArgument(
         'uav_name',
-        default_value='uav1',
+        default_value='',
         description='UAV name for MRS topics'
     )
     
@@ -160,7 +160,7 @@ def generate_launch_description():
     
     use_heading_arg = DeclareLaunchArgument(
         'use_heading',
-        default_value='false',
+        default_value='true',
         description='Use ViNT heading predictions (learn_angle from training)'
     )
     

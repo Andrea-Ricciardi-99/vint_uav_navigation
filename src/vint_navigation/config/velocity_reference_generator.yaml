@@ -17,7 +17,7 @@ vint_velocity_reference_generator:
     vint_is_normalized: true     # check your model config: normalize: true/false
     vint_max_v: 0.5              # from robot.yaml used in training
     vint_rate: 10.0               # from robot.yaml used in training
-    use_heading: false            # use 4D output [dx,dy,hx,hy]
+    use_heading: true            # use 4D output [dx,dy,hx,hy]
     
     # Flight Parameters
     altitude_hold: 2.0           # meters above ground

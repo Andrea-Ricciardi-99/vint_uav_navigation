@@ -39,15 +39,11 @@ windows:
       layout: tiled
       panes:
         - |
-          ros2 launch vint_navigation vint_navigation.launch.py \
-            topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/exp_21_less\
-            model:=vint \
-            image_topic:=/alphasense/cam0/image_raw \
-            waypoint_topic:=/vint/waypoint \
-            debug:=false \
-            predicted_path_topic:=/vint/viz/predicted_path \
-            markers_topic:=/vint/viz/markers \
-            annotated_image_topic:=/vint/viz/annotated_image \
+          ros2 launch vint_navigation vint_navigation_rosbag.launch.py \
+             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/exp_21 \
+             image_topic:=/alphasense/cam0/image_raw\
+             enable_viz:=true \
+             enable_control:=false
   # - create_topomap:
   #     layout: tiled
   #     panes:

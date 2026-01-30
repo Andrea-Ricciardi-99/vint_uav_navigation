@@ -78,8 +78,8 @@ class ViNTVelocityReferenceGenerator(Node):
         # Camera frame: x_cam (forward), y_cam (right)
         # FCU frame: x_fcu = -y_cam, y_fcu = -x_cam
         self.rotation_matrix = np.array([
-            [1,  0],
-            [0,  1]
+            [0,  -1],
+            [-1,  0]
         ])
         
         # State variables

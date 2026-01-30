@@ -237,7 +237,21 @@ class ViNTNavigatorNode(Node):
         self.goal_pub.publish(goal_msg)
         
         if self.reached_goal:
-            self.get_logger().info("Reached goal! Stopping...", throttle_duration_sec=2.0)
+            self.get_logger().info("=" * 60)
+            self.get_logger().info("🎯 GOAL REACHED! Shutting down navigator...")
+            self.get_logger().info("=" * 60)
+            
+            # Publish zero waypoint before shutdown
+            zero_waypoint = Float32MultiArray()
+            zero_waypoint.data = [0.0, 0.0, 0.0, 0.0]
+            self.waypoint_pub.publish(zero_waypoint)
+            
+            # Cancel timer to stop loop
+            self.timer.cancel()
+            
+            # Trigger shutdown
+            raise SystemExit("Goal reached")
+
 
 
 def main(args=None):
@@ -246,11 +260,13 @@ def main(args=None):
     
     try:
         rclpy.spin(node)
-    except KeyboardInterrupt:
-        pass
+    except (KeyboardInterrupt, SystemExit) as e:
+        if isinstance(e, SystemExit):
+            node.get_logger().info("Navigator shutdown complete.")
     finally:
         node.destroy_node()
         rclpy.shutdown()
+
 
 
 if __name__ == '__main__':

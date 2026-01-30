@@ -10,7 +10,7 @@ pre_window:
   - source ./../../../../../install/local_setup.bash
   - export UAV_NAME=uav1
   - export RUN_TYPE=simulation
-  - export UAV_TYPE=x500
+  - export UAV_TYPE=f450
   - export PLATFORM_CONFIG=`ros2 pkg prefix mrs_uav_gazebo_simulator`/share/mrs_uav_gazebo_simulator/config/mrs_uav_system/$UAV_TYPE.yaml
   - export RMW_IMPLEMENTATION=rmw_zenoh_cpp
   - export USE_SIM_TIME="true"
@@ -29,7 +29,7 @@ windows:
       panes:
         - ros2 launch mrs_uav_gazebo_simulator simulation.launch.py gz_headless:=false gz_verbose:=true world_file:=$WORLD_FILE
         - |
-          waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-bluefox-camera-front --pos 2 10 0.5 1.56'}"
+          waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-realsense-front --pos 2 10 0.5 1.56'}"
         # - |
         #   waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-bluefox-camera-front --pos 0 0 0.5 0'}"
   - px4_api:
@@ -71,18 +71,20 @@ windows:
       panes:
         - |
           waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
-             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital \
-             image_topic:=/uav1/bluefox_front/image_raw \
+             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital_easy \
+             image_topic:=/uav1/rgbd_front/color/image_raw \
              enable_viz:=true \
-             enable_control:=true
+             enable_control:=true \
+             use_heading:=false \
+             altitude_hold:=2.0
   # - create_topomap:
   #     layout: tiled
   #     panes:
   #       - |
   #         waitForCore; ros2 launch vint_navigation create_topomap.launch.py \
   #           topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps \
-  #           topomap_name:=hospital \
-  #           image_topic:=/uav1/bluefox_front/image_raw \
+  #           topomap_name:=hospital_easy \
+  #           image_topic:=/uav1/rgbd_front/color/image_raw\
   #           dt:=1.0
   # - start_recording_topomap:
   #     layout: tiled
