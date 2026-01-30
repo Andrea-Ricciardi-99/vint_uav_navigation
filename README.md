@@ -2,6 +2,8 @@
 
 Vision-based Navigation Transformer (ViNT) implementation for ROS2 UAV navigation with MRS UAV System integration.
 
+**Based on:** [Visual Navigation Transformer (ViNT)](https://github.com/robodhruv/visualnav-transformer)
+
 ## Repository Structure
 
 ```
@@ -31,8 +33,8 @@ This repository implements visual navigation for UAVs using the ViNT model. The 
 
 ### System Requirements
 
-- Ubuntu 22.04 (recommended)
-- ROS2 Humble
+- Ubuntu 24.04 (recommended)
+- ROS2 Jazzy
 - Python 3.10+
 - CUDA-capable GPU (optional, for faster inference)
 
@@ -41,8 +43,23 @@ This repository implements visual navigation for UAVs using the ViNT model. The 
 Install Python dependencies:
 
 ```bash
-pip install torch torchvision numpy pillow pyyaml opencv-python
-pip install rclpy sensor-msgs-py std-msgs-py geometry-msgs-py nav-msgs-py visualization-msgs-py
+# Core deep learning and vision libraries
+pip install torch==2.6.0 torchvision==0.21.0 torchaudio==2.6.0
+pip install numpy==1.26.4 pillow==12.0.0 opencv-python==4.8.1.78
+
+# ViNT model dependencies
+pip install transformers==4.57.6 diffusers==0.35.2 einops==0.8.1
+pip install efficientnet_pytorch==0.7.1 datasets==4.1.1
+
+# Training utilities (if fine-tuning)
+pip install git+https://github.com/Tony-Y/pytorch_warmup.git
+pip install warmup_scheduler==0.3
+
+# Utilities
+pip install PyYAML==6.0.3 tqdm==4.67.1 scipy==1.17.0
+
+# ViNT training repository
+pip install -e git+https://github.com/robodhruv/visualnav-transformer.git#egg=vint_train&subdirectory=train
 ```
 
 ### MRS UAV System Installation
@@ -154,20 +171,6 @@ Converts ViNT spatial waypoints to velocity references for MRS UAV controllers. 
 #### 5. `vint_to_mrs_waypoint_node.py`
 
 Alternative to velocity reference generator - converts ViNT waypoints to MRS goto commands for position-based control.
-
-**Subscribed Topics:**
-- `/vint/waypoint` - ViNT waypoint commands
-- `/{uav_name}/estimation_manager/odom_main` - UAV odometry
-
-**Services:**
-- `/{uav_name}/control_manager/goto` - MRS goto service
-
-**Parameters:**
-- `uav_name` - UAV namespace (default: 'uav1')
-- `camera_rotation_deg` - Camera rotation angle (default: 90.0°)
-- `use_heading` - Use heading control (default: true)
-- `scale_factor` - Waypoint scaling factor (default: 1.0)
-- `update_rate` - Command update rate in Hz (default: 2.0)
 
 #### 6. `utils.py`
 
