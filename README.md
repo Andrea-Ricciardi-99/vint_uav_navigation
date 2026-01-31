@@ -27,7 +27,7 @@ Vision-based Navigation Transformer (ViNT) implementation for ROS2 UAV navigatio
 
 ## Overview
 
-This repository implements visual navigation for UAVs using the ViNT model. The system uses topological maps created from camera images and generates waypoints for autonomous navigation in indoor environments.
+This repository implements visual navigation for UAVs using the ViNT model. The system uses topological maps created from camera images and generates waypoints for autonomous navigation.
 
 ## Prerequisites
 
