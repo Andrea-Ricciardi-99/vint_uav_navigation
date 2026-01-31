@@ -191,11 +191,7 @@ Converts ViNT spatial waypoints to velocity references for MRS UAV controllers. 
 - `vint_is_normalized` - Whether ViNT outputs are normalized (default: true)
 - `velocity_damping` - Velocity smoothing factor (default: 0.7)
 
-#### 5. `vint_to_mrs_waypoint_node.py`
-
-Alternative to velocity reference generator - converts ViNT waypoints to MRS goto commands for position-based control.
-
-#### 6. `utils.py`
+#### 5. `utils.py`
 
 Utility functions including:
 - `load_model()` - Load ViNT model from checkpoint
