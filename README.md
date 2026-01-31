@@ -268,7 +268,7 @@ ros2 run vint_navigation vint_visualizer_node
 ### 4. Monitor in RViz
 
 ```bash
-rviz2 -d vint_navigation/rviz/vint_navigation.rviz
+ros2 run rviz2 rviz2 -d ./rviz.rviz --ros-args -p use_sim_time:=true
 ```
 
 ## Configuration
