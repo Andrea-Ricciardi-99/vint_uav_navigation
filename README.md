@@ -66,13 +66,36 @@ pip install -e git+https://github.com/robodhruv/visualnav-transformer.git#egg=vi
 
 This package requires the MRS UAV System for UAV control and simulation. Follow the installation instructions:
 
+1. Install the Robot Operating System (Jazzy):
 ```bash
-# Clone the MRS UAV System repository
-git clone https://github.com/ctu-mrs/mrs_uav_system.git -b ros2
+curl https://ctu-mrs.github.io/ppa2-stable/add_ros_ppa.sh | bash
+sudo apt install ros-jazzy-desktop-full
+```
 
-# Follow the installation guide in the repository
-cd mrs_uav_system
-./installation/install.sh
+2. Configure your ROS environment according to [https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html#setup-environment](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html#setup-environment)
+
+3. Add the **[stable](https://github.com/ctu-mrs/ppa2-stable)** PPA into your apt-get repository:
+```bash
+curl https://ctu-mrs.github.io/ppa2-stable/add_ppa.sh | bash
+```
+  * <details>
+    <summary>>>> Special instructions for the MRS System developers <<<</summary>
+
+      * Instead of the stable PPA, you can add the **[unstable](https://github.com/ctu-mrs/ppa2-unstable)** PPA, for which the packages are build immediatelly after being pushed to **ros2**.
+      * If you have both PPAs, the **unstable** has a priority.
+      * Beware! The **unstable** PPA might be internally inconsistent, buggy and dangerous!
+
+    </details>
+
+4. Install the MRS UAV System:
+```bash
+sudo apt install ros-jazzy-mrs-uav-system-full
+```
+
+5. Start the example MRS simulation session:
+```bash
+cd /opt/ros/jazzy/share/mrs_multirotor_simulator/tmux/mrs_one_drone
+./start.sh
 ```
 
 For detailed installation instructions, visit: [https://github.com/ctu-mrs/mrs_uav_system/tree/ros2](https://github.com/ctu-mrs/mrs_uav_system/tree/ros2)
