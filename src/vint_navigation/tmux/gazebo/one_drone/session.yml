@@ -76,7 +76,14 @@ windows:
              enable_viz:=true \
              enable_control:=true \
              use_heading:=false \
-             altitude_hold:=2.0
+             altitude_hold:=2.0 \
+             debug:=true 
+  #> ./vint_navigation_log.txt 2>&1
+  # - debug_vint:
+  #     layout: tiled
+  #     panes:
+  #       - waitForCore; ros2 topic echo /uav1/vint/waypoint > ./vint_waypoints.txt
+  #       - waitForCore; ros2 topic echo /uav1/vint/closest_node > ./vint_closest_node.txt
   # - create_topomap:
   #     layout: tiled
   #     panes:

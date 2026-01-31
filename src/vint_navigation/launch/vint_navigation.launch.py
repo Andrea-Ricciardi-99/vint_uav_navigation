@@ -60,7 +60,7 @@ def generate_launch_description():
     
     debug_arg = DeclareLaunchArgument(
         'debug',
-        default_value='true',
+        default_value='false',
         description='Enable debug logging in navigator node'
     )
     
