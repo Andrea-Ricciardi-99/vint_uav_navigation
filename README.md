@@ -223,10 +223,11 @@ Fly the UAV manually along your desired path while recording images:
 
 ```bash
 # In a new terminal
-ros2 run vint_navigation create_topomap_node --ros-args \
-    -p topomap_dir:=/path/to/topomaps \
-    -p topomap_name:=my_route \
-    -p dt:=1.0
+ros2 launch vint_navigation create_topomap.launch.py \
+             topomap_dir:=/path/to/your/topomaps/dir \
+             topomap_name:=topomap_name \
+             image_topic:=/camera/image_raw \
+             dt:=1.0
 
 # Start recording
 ros2 service call /create_topomap_node/start_recording std_srvs/srv/Trigger
