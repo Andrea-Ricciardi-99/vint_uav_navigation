@@ -112,7 +112,7 @@ colcon build --packages-select vint_navigation aws_robomaker_hospital_world aws_
 source install/setup.bash
 ```
 
-2. Download ViNT model weights and place them in the appropriate directory as specified in your config files.
+2. Download [ViNT model weights](https://drive.google.com/drive/folders/1a9yWR2iooXFAqjQHetz263--4_2FFggg?usp=sharing) and place them in the appropriate directory as specified in your config files.
 
 ## ViNT Navigation Package
 
