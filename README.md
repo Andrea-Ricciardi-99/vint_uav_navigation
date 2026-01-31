@@ -98,7 +98,7 @@ cd /opt/ros/jazzy/share/mrs_multirotor_simulator/tmux/mrs_one_drone
 ./start.sh
 ```
 
-For detailed installation instructions, visit: [https://github.com/ctu-mrs/mrs_uav_system/tree/ros2](https://github.com/ctu-mrs/mrs_uav_system/tree/ros2)
+For detailed information about the MRS UAV System, visit: [https://github.com/ctu-mrs/mrs_uav_system/tree/ros2](https://github.com/ctu-mrs/mrs_uav_system/tree/ros2)
 
 ## Installation
 
