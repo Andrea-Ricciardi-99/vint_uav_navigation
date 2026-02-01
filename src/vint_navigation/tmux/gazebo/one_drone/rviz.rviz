@@ -245,7 +245,7 @@ Visualization Manager:
     - Class: rviz_common/Group
       Displays:
       - Class: rviz_default_plugins/Image
-        Name: ViNT_Visualization
+        Name: ViNT Visualization
         Enabled: true
         Topic:
           Value: /uav1/vint/viz/annotated_image
@@ -255,6 +255,20 @@ Visualization Manager:
           Reliability Policy: Reliable
         Transport Hint: raw
         Normalize Range: true
+        Min Value: 0.0
+        Max Value: 1.0
+        Queue Size: 2
+      - Class: rviz_default_plugins/Image
+        Name: Image Depth
+        Enabled: true
+        Topic:
+          Value: /uav1/rgbd_front/depth/image_raw
+          Depth: 5
+          Durability Policy: Volatile
+          History Policy: Keep Last
+          Reliability Policy: Reliable
+        Transport Hint: raw
+        Normalize Range: false
         Min Value: 0.0
         Max Value: 1.0
         Queue Size: 2

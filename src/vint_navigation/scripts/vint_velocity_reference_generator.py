@@ -11,7 +11,8 @@ from std_msgs.msg import Float32MultiArray
 from nav_msgs.msg import Odometry
 from mrs_msgs.msg import VelocityReferenceStamped
 import numpy as np
-
+from sensor_msgs.msg import Image
+import struct
 
 def euler_from_quaternion(x, y, z, w):
     """Convert quaternion to Euler angles (roll, pitch, yaw)."""
@@ -70,7 +71,10 @@ class ViNTVelocityReferenceGenerator(Node):
         self.declare_parameter('vint_max_v', 0.5)
         self.declare_parameter('vint_rate', 5.0)
         self.declare_parameter('velocity_damping', 0.3)
-        
+        self.declare_parameter('use_collision_avoidance', True)
+        self.declare_parameter('collision_threshold', 1.0)
+        self.declare_parameter('depth_topic', '/rgbd_front/depth/image_raw')
+                
         self.uav_name = self.get_parameter('uav_name').value
         self.max_h_speed = self.get_parameter('max_horizontal_speed').value
         self.max_v_speed = self.get_parameter('max_vertical_speed').value
@@ -82,7 +86,9 @@ class ViNTVelocityReferenceGenerator(Node):
         self.vint_max_v = self.get_parameter('vint_max_v').value
         self.vint_rate = self.get_parameter('vint_rate').value
         self.velocity_damping = self.get_parameter('velocity_damping').value
-        
+        self.use_collision_avoidance = self.get_parameter('use_collision_avoidance').value
+        self.collision_threshold = self.get_parameter('collision_threshold').value
+            
         # Camera-to-FCU transformation: 90° rotation with reflection
         # Camera frame: x_cam (forward), y_cam (right)
         # FCU frame: x_fcu = -y_cam, y_fcu = -x_cam
@@ -90,7 +96,7 @@ class ViNTVelocityReferenceGenerator(Node):
             # [0,  -1],
             # [-1,  0]
                 [1, 0],
-                [0, 1]
+                [0, -1]
         ])
         
         # State variables
@@ -98,6 +104,9 @@ class ViNTVelocityReferenceGenerator(Node):
         self.latest_waypoint = None
         self.last_velocity = np.array([0.0, 0.0])
         self.EPS = 1e-8
+        self.current_depth = None
+        self.obstacle_detected = False
+
         
         # Subscribers
         self.waypoint_sub = self.create_subscription(
@@ -113,6 +122,16 @@ class ViNTVelocityReferenceGenerator(Node):
             self.odom_callback,
             10
         )
+
+        # Depth subscriber for collision avoidance
+        if self.use_collision_avoidance:
+            self.depth_sub = self.create_subscription(
+                Image,
+                self.get_parameter('depth_topic').value,
+                self.depth_callback,
+                10
+            )
+
         
         # Publisher
         self.velocity_ref_pub = self.create_publisher(
@@ -135,6 +154,10 @@ class ViNTVelocityReferenceGenerator(Node):
             self.get_logger().info(f"    Scaling: MAX_V={self.vint_max_v}, RATE={self.vint_rate}")
         self.get_logger().info(f"  Altitude hold: {self.altitude_hold} m")
         self.get_logger().info(f"  Velocity damping: {self.velocity_damping}")
+        if self.use_collision_avoidance:
+            self.get_logger().info(f"  Collision avoidance: ENABLED (threshold={self.collision_threshold}m)")
+        else:
+            self.get_logger().info(f"  Collision avoidance: DISABLED")
         self.get_logger().info("=" * 60)
     
     def waypoint_callback(self, msg):
@@ -144,6 +167,56 @@ class ViNTVelocityReferenceGenerator(Node):
     def odom_callback(self, msg):
         """Store current odometry."""
         self.current_odom = msg
+
+    def depth_callback(self, msg):
+        """Process depth image for collision avoidance."""
+        try:
+            # Extract depth image parameters
+            height = msg.height
+            width = msg.width
+            
+            # Define detection region accounting for drone width
+            # Horizontal: wider area (60% of image width)
+            # Vertical: center band (30% of image height)
+            center_y_start = int(height * 0.35)
+            center_y_end = int(height * 0.65)
+            center_x_start = int(width * 0.20)  # Extended from 0.35 to 0.20
+            center_x_end = int(width * 0.80)    # Extended from 0.65 to 0.80
+            
+            # Parse depth data from byte array to float32
+            # encoding='32FC1' means 32-bit float, single channel
+            depth_array = []
+            for y in range(center_y_start, center_y_end, 10):  # Sample every 10 rows
+                for x in range(center_x_start, center_x_end, 10):  # Sample every 10 cols
+                    # Calculate byte offset
+                    offset = (y * width + x) * 4  # 4 bytes per float32
+                    
+                    # Extract 4 bytes and convert to float
+                    if offset + 4 <= len(msg.data):
+                        bytes_data = msg.data[offset:offset+4]
+                        depth_value = struct.unpack('f', bytes(bytes_data))[0]
+                        
+                        # Filter out invalid values (NaN, inf, negative)
+                        if depth_value > 0 and depth_value < 100:
+                            depth_array.append(depth_value)
+            
+            # Check if obstacle detected
+            if depth_array:
+                min_depth = min(depth_array)
+                self.obstacle_detected = min_depth < self.collision_threshold
+                
+                if self.obstacle_detected:
+                    self.get_logger().warn(
+                        f"⚠️  OBSTACLE DETECTED: {min_depth:.2f}m < {self.collision_threshold:.2f}m",
+                        throttle_duration_sec=1.0
+                    )
+            else:
+                self.obstacle_detected = False
+                
+        except Exception as e:
+            self.get_logger().error(f"Depth processing error: {e}", throttle_duration_sec=5.0)
+
+
     
     def compute_velocity_reference(self, waypoint_camera, current_yaw, current_altitude):
         """Transform ViNT waypoint to velocity reference."""
@@ -239,7 +312,30 @@ class ViNTVelocityReferenceGenerator(Node):
             vx_fcu *= scale
             vy_fcu *= scale
 
-        
+        # ========================================================================
+        # Collision avoidance: Stop horizontal motion if obstacle detected
+        # ========================================================================
+        if self.use_collision_avoidance and self.obstacle_detected:
+            # Only allow backward motion
+            if vx_fcu > 0:  # Forward motion
+                vx_fcu = 0.0
+            # If not strafing significantly, rotate to search for clear path
+            STRAFE_THRESHOLD = 0.1  # m/s - consider "not strafing" if below this
+            if abs(vy_fcu) < STRAFE_THRESHOLD:
+                # Override heading control with search rotation
+                # 45 degrees CCW = π/4 radians ≈ 0.785 rad
+                # Apply over time constant to get smooth rotation
+                SEARCH_ROTATION_ANGLE = np.radians(360)  # 360° CCW
+                SEARCH_TIME_CONSTANT = 16.0  # Take 16 seconds to rotate 360°
+                
+                yaw_rate = SEARCH_ROTATION_ANGLE / SEARCH_TIME_CONSTANT
+                yaw_rate = np.clip(yaw_rate, -self.max_yaw_rate, self.max_yaw_rate)
+                
+                self.get_logger().info(
+                    "🔄 Obstacle ahead, rotating to search...",
+                    throttle_duration_sec=16.0
+                )
+                
         # Altitude control
         altitude_error = self.altitude_hold - current_altitude
         vz_fcu = np.clip(altitude_error * 0.5, -self.max_v_speed, self.max_v_speed)
@@ -289,12 +385,15 @@ class ViNTVelocityReferenceGenerator(Node):
                 heading_cam = np.rad2deg(np.arctan2(sin_h, cos_h))
                 heading_info = f"h_cam={heading_cam:+.0f}° "
             
+            obstacle_info = "🛑OBSTACLE " if (self.use_collision_avoidance and self.obstacle_detected) else ""
+
             self.get_logger().info(
-                f"WP[{self.latest_waypoint[0]:+.3f},{self.latest_waypoint[1]:+.3f}] {heading_info}→ "
+                f"{obstacle_info}WP[{self.latest_waypoint[0]:+.3f},{self.latest_waypoint[1]:+.3f}] {heading_info}→ "
                 f"Vel[{vx:+.2f},{vy:+.2f},{vz:+.2f}m/s, ω={np.rad2deg(yaw_rate):+.1f}°/s] "
                 f"Yaw:{np.rad2deg(current_yaw):+.0f}° Alt:{current_altitude:.2f}m",
                 throttle_duration_sec=0.5
             )
+
 
 
     

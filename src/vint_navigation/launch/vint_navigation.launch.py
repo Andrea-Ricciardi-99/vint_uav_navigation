@@ -163,6 +163,25 @@ def generate_launch_description():
         default_value='false',
         description='Use ViNT heading predictions (learn_angle from training)'
     )
+
+    # --- Collision Avoidance Parameters ---
+    use_collision_avoidance_arg = DeclareLaunchArgument(
+        'use_collision_avoidance',
+        default_value='true',
+        description='Enable depth-based collision avoidance'
+    )
+
+    collision_threshold_arg = DeclareLaunchArgument(
+        'collision_threshold',
+        default_value='1.0',
+        description='Minimum safe distance to obstacles (meters)'
+    )
+
+    depth_topic_arg = DeclareLaunchArgument(
+        'depth_topic',
+        default_value='/uav1/rgbd_front/depth/image_raw',
+        description='Depth camera topic for collision avoidance'
+    )
     
     # ========================================================================
     # NODES
@@ -240,6 +259,11 @@ def generate_launch_description():
                 
                 # Flight parameters
                 'altitude_hold': LaunchConfiguration('altitude_hold'),
+
+                # Collision avoidance parameters
+                'use_collision_avoidance': LaunchConfiguration('use_collision_avoidance'),
+                'collision_threshold': LaunchConfiguration('collision_threshold'),
+                'depth_topic': LaunchConfiguration('depth_topic'),
             }
         ],
         emulate_tty=True,
@@ -284,6 +308,11 @@ def generate_launch_description():
         vint_max_v_arg,
         vint_rate_arg,
         use_heading_arg,
+
+        # Collision avoidance parameters
+        use_collision_avoidance_arg,
+        collision_threshold_arg,
+        depth_topic_arg,
         
         # Nodes
         vint_node,

@@ -8,7 +8,12 @@ vint_velocity_reference_generator:
     max_horizontal_speed: 2.5    # m/s
     max_vertical_speed: 1.0      # m/s  
     max_yaw_rate: 0.8            # rad/s (≈46°/s)
-    
+
+    # Collision Avoidance Parameters
+    use_collision_avoidance: true
+    collision_threshold: 1.0  # Stop if obstacle within 1.5 meters
+    depth_topic: '/uav1/rgbd_front/depth/image_raw'
+
     # Control Parameters
     dt: 0.1                      # seconds (timestep for v = dx/dt)
     velocity_damping: 0.7        # smoothing factor [0-1]
