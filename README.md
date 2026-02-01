@@ -282,11 +282,11 @@ Launch the ViNT navigation system:
 ```bash
 ros2 launch vint_navigation vint_navigation.launch.py \
     topomap_dir:=/path/to/topomaps/my_route \
-    uav_name:=uav1
-    enable_viz:=true 
-    enable_control:=true 
-    use_heading:=true 
-    altitude_hold:=1.5 
+    uav_name:=uav1 \
+    enable_viz:=true \
+    enable_control:=true \
+    use_heading:=true \
+    altitude_hold:=1.5 \
     use_collision_avoidance:=true 
 ```
 
