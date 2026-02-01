@@ -326,7 +326,10 @@ class ViNTVelocityReferenceGenerator(Node):
             # Only allow backward motion
             if vx_fcu > 0:  # Forward motion
                 vx_fcu = 0.0
-            # # If not strafing significantly, rotate to search for clear path
+            if vy_fcu > 0:  # Rightward motion
+                vy_fcu = 0.0
+
+            # # If not strafing significantly, rotate to search for clear path (TODO)
             # STRAFE_THRESHOLD = 0.1  # m/s - consider "not strafing" if below this
             # if abs(vy_fcu) < STRAFE_THRESHOLD:
             #     # Override heading control with search rotation
