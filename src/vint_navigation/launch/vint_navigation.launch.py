@@ -219,7 +219,7 @@ def generate_launch_description():
             'image_topic': LaunchConfiguration('image_topic'),
             'waypoint_topic': LaunchConfiguration('waypoint_topic'),
             'closest_node_topic': LaunchConfiguration('closest_node_topic'),
-            'frame_id': PythonExpression(["'", LaunchConfiguration('uav_name'), "/gps_garmin_origin'"]),
+            'frame_id': PythonExpression(["'", LaunchConfiguration('uav_name'), "/fcu'"]),
             'predicted_path_topic': LaunchConfiguration('predicted_path_topic'),
             'markers_topic': LaunchConfiguration('markers_topic'),
             'annotated_image_topic': LaunchConfiguration('annotated_image_topic'),
