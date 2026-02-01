@@ -329,22 +329,7 @@ class ViNTVelocityReferenceGenerator(Node):
             if abs(vy_fcu) > 0.05:  # Lateral motion
                 vy_fcu = 0.0
 
-            # # If not strafing significantly, rotate to search for clear path (TODO)
-            # STRAFE_THRESHOLD = 0.1  # m/s - consider "not strafing" if below this
-            # if abs(vy_fcu) < STRAFE_THRESHOLD:
-            #     # Override heading control with search rotation
-            #     # 45 degrees CCW = π/4 radians ≈ 0.785 rad
-            #     # Apply over time constant to get smooth rotation
-            #     SEARCH_ROTATION_ANGLE = np.radians(45)  # 45° CCW
-            #     SEARCH_TIME_CONSTANT = 2.0  # Take 2 seconds to rotate 360°
-                
-            #     yaw_rate = SEARCH_ROTATION_ANGLE / SEARCH_TIME_CONSTANT
-            #     yaw_rate = np.clip(yaw_rate, -self.max_yaw_rate, self.max_yaw_rate)
-                
-            #     self.get_logger().info(
-            #         "🔄 Obstacle ahead, rotating to search...",
-            #         throttle_duration_sec=2.0
-            #     )
+            # If not strafing significantly, rotate to search for clear path or do something (TODO)
                 
         # Altitude control
         altitude_error = self.altitude_hold - current_altitude
