@@ -31,7 +31,7 @@ windows:
         - |
           waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-realsense-front --pos 2 10 0.5 1.56'}"
         # - |
-        #   waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-bluefox-camera-front --pos 0 0 0.5 0'}"
+        #   waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-realsense-front --pos 0 0 0.5 0'}"
   - px4_api:
       layout: tiled
       panes:
@@ -71,13 +71,13 @@ windows:
       panes:
         - |
           waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
-             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital_easy \
+             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital \
              image_topic:=/uav1/rgbd_front/color/image_raw \
              enable_viz:=true \
              enable_control:=true \
-             use_heading:=false \
+             use_heading:=true \
              altitude_hold:=2.0 \
-             debug:=true 
+             debug:=false 
   #> ./vint_navigation_log.txt 2>&1
   # - debug_vint:
   #     layout: tiled

@@ -38,6 +38,15 @@ def clip_angle(theta):
     return theta - 2 * np.pi
 
 
+def normalize_angle(angle):
+    """Normalize angle to [-π, π]."""
+    while angle > np.pi:
+        angle -= 2.0 * np.pi
+    while angle < -np.pi:
+        angle += 2.0 * np.pi
+    return angle
+
+
 class ViNTVelocityReferenceGenerator(Node):
     """
     Generates velocity references from ViNT waypoints for MRS controllers.
@@ -60,7 +69,7 @@ class ViNTVelocityReferenceGenerator(Node):
         self.declare_parameter('vint_is_normalized', True)
         self.declare_parameter('vint_max_v', 0.5)
         self.declare_parameter('vint_rate', 5.0)
-        self.declare_parameter('velocity_damping', 0.7)
+        self.declare_parameter('velocity_damping', 0.3)
         
         self.uav_name = self.get_parameter('uav_name').value
         self.max_h_speed = self.get_parameter('max_horizontal_speed').value
@@ -163,19 +172,50 @@ class ViNTVelocityReferenceGenerator(Node):
         # Forward and lateral velocities in FCU frame
         v_forward_fcu = dx_fcu / self.dt
         v_lateral_fcu = dy_fcu / self.dt
+
+        # Velocity gain multiplier (tune as needed)
+        VELOCITY_GAIN = 4.0  # Start with 2.0, adjust based on testing
+        v_forward_fcu *= VELOCITY_GAIN
+        v_lateral_fcu *= VELOCITY_GAIN
         
         # Clip to limits
         v_forward_fcu = np.clip(v_forward_fcu, -self.max_h_speed, self.max_h_speed)
         v_lateral_fcu = np.clip(v_lateral_fcu, -self.max_h_speed, self.max_h_speed)
         
-        # Gentle yaw correction: only turn if lateral offset is large
-        # Use much slower time constant (2 seconds instead of 0.1)
-        YAW_TIME_CONSTANT = 2.0
-        target_yaw_correction = np.arctan2(dy_fcu, dx_fcu + 1e-6)
-        yaw_rate = target_yaw_correction / YAW_TIME_CONSTANT
-        yaw_rate = np.clip(yaw_rate, -self.max_yaw_rate, self.max_yaw_rate)
+        # ========================================================================
+        # Heading control using ViNT's heading output
+        # ========================================================================
+        yaw_rate = 0.0
 
-        yaw_rate = 0.0  if not self.use_heading else yaw_rate
+        if self.use_heading and len(waypoint_camera) >= 4:
+            # Extract heading from ViNT output (components 2 and 3)
+            sin_heading_cam = float(waypoint_camera[2])
+            cos_heading_cam = float(waypoint_camera[3])
+            
+            # Normalize (for safety)
+            norm = np.sqrt(sin_heading_cam**2 + cos_heading_cam**2)
+            if norm > 1e-6:
+                sin_heading_cam /= norm
+                cos_heading_cam /= norm
+            
+            # Transform heading vector from camera to body frame
+            heading_vec_cam = np.array([cos_heading_cam, sin_heading_cam])
+            heading_vec_fcu = self.rotation_matrix @ heading_vec_cam
+            
+            # Convert to angle in body frame (relative to current orientation)
+            target_heading_body = np.arctan2(heading_vec_fcu[1], heading_vec_fcu[0])
+            
+            # Compute heading rate
+            HEADING_TIME_CONSTANT = 2.0  # Adjust this: larger = slower turning
+            yaw_rate = target_heading_body / HEADING_TIME_CONSTANT
+            
+            # Clip to limits
+            yaw_rate = np.clip(yaw_rate, -self.max_yaw_rate, self.max_yaw_rate)
+            
+            # Optional deadband to reduce jitter
+            if abs(target_heading_body) < np.radians(5):
+                yaw_rate *= 0.3
+
         
         # ========================================================================
         # Transform to world frame
@@ -244,16 +284,24 @@ class ViNTVelocityReferenceGenerator(Node):
         
         # Publish to MRS
         self.publish_velocity_reference(vx, vy, vz, yaw_rate, current_yaw)
-        
+
         # Log status
         if len(self.latest_waypoint) >= 2:
+            heading_info = ""
+            if self.use_heading and len(self.latest_waypoint) >= 4:
+                sin_h = self.latest_waypoint[2]
+                cos_h = self.latest_waypoint[3]
+                heading_cam = np.rad2deg(np.arctan2(sin_h, cos_h))
+                heading_info = f"h_cam={heading_cam:+.0f}° "
+            
             self.get_logger().info(
-                f"WP[{self.latest_waypoint[0]:+.3f},{self.latest_waypoint[1]:+.3f}] → "
+                f"WP[{self.latest_waypoint[0]:+.3f},{self.latest_waypoint[1]:+.3f}] {heading_info}→ "
                 f"Vel[{vx:+.2f},{vy:+.2f},{vz:+.2f}m/s, ω={np.rad2deg(yaw_rate):+.1f}°/s] "
-                f"Alt:{current_altitude:.2f}→{self.altitude_hold:.2f}m"
-                f"Use Heading:{self.use_heading}",
+                f"Yaw:{np.rad2deg(current_yaw):+.0f}° Alt:{current_altitude:.2f}m",
                 throttle_duration_sec=0.5
             )
+
+
     
     def publish_velocity_reference(self, vx, vy, vz, yaw_rate, current_yaw):
         """Publish velocity reference to MRS control_manager."""
