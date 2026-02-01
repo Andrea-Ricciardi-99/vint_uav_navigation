@@ -216,40 +216,33 @@ class ViNTVelocityReferenceGenerator(Node):
             if abs(target_heading_body) < np.radians(5):
                 yaw_rate *= 0.3
 
-        
         # ========================================================================
-        # Transform to world frame
+        # Keep velocities in FCU (body) frame
+        # MPC will handle world transformation based on frame_id
         # ========================================================================
-        
-        cos_yaw = np.cos(current_yaw)
-        sin_yaw = np.sin(current_yaw)
-        
-        # Rotate both forward AND lateral velocities
-        vx_world = v_forward_fcu * cos_yaw - v_lateral_fcu * sin_yaw
-        vy_world = v_forward_fcu * sin_yaw + v_lateral_fcu * cos_yaw
-        
-        # Smoothing
-        velocity_horizontal = np.array([vx_world, vy_world])
+
+        # Smoothing in body frame
+        velocity_horizontal = np.array([v_forward_fcu, v_lateral_fcu])
         velocity_horizontal = (self.velocity_damping * self.last_velocity + 
                             (1 - self.velocity_damping) * velocity_horizontal)
         self.last_velocity = velocity_horizontal
-        
-        vx_world = velocity_horizontal[0]
-        vy_world = velocity_horizontal[1]
-        
+
+        vx_fcu = velocity_horizontal[0]
+        vy_fcu = velocity_horizontal[1]
+
         # Ensure total speed doesn't exceed limit
-        h_speed = np.sqrt(vx_world**2 + vy_world**2)
+        h_speed = np.sqrt(vx_fcu**2 + vy_fcu**2)
         if h_speed > self.max_h_speed:
             scale = self.max_h_speed / h_speed
-            vx_world *= scale
-            vy_world *= scale
+            vx_fcu *= scale
+            vy_fcu *= scale
+
         
         # Altitude control
         altitude_error = self.altitude_hold - current_altitude
-        vz_world = np.clip(altitude_error * 0.5, -self.max_v_speed, self.max_v_speed)
-        
-        return np.array([vx_world, vy_world, vz_world, yaw_rate])
+        vz_fcu = np.clip(altitude_error * 0.5, -self.max_v_speed, self.max_v_speed)
 
+        return np.array([vx_fcu, vy_fcu, vz_fcu, yaw_rate])
 
     
     def control_loop(self):
