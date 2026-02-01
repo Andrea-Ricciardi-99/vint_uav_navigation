@@ -301,9 +301,9 @@ ros2 run vint_navigation vint_navigator_node --ros-args \
 # Start velocity reference generator
 ros2 run vint_navigation vint_velocity_reference_generator --ros-args \
     -p uav_name:=uav1 \
-    -p altitude_hold:=1.5
-    -p enable_control:=true 
-    -p use_heading:=true 
+    -p altitude_hold:=1.5 \
+    -p enable_control:=true \
+    -p use_heading:=true \
     -p use_collision_avoidance:=true 
 
 # Start visualizer (optional)
