@@ -87,8 +87,10 @@ class ViNTVelocityReferenceGenerator(Node):
         # Camera frame: x_cam (forward), y_cam (right)
         # FCU frame: x_fcu = -y_cam, y_fcu = -x_cam
         self.rotation_matrix = np.array([
-            [0,  -1],
-            [-1,  0]
+            # [0,  -1],
+            # [-1,  0]
+                [1, 0],
+                [0, 1]
         ])
         
         # State variables
@@ -199,7 +201,7 @@ class ViNTVelocityReferenceGenerator(Node):
                 cos_heading_cam /= norm
             
             # Transform heading vector from camera to body frame
-            heading_vec_cam = np.array([cos_heading_cam, sin_heading_cam])
+            heading_vec_cam = np.array([sin_heading_cam, cos_heading_cam])
             heading_vec_fcu = self.rotation_matrix @ heading_vec_cam
             
             # Convert to angle in body frame (relative to current orientation)
