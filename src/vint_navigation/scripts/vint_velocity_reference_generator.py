@@ -326,7 +326,7 @@ class ViNTVelocityReferenceGenerator(Node):
             # Only allow backward motion
             if vx_fcu > 0:  # Forward motion
                 vx_fcu = 0.0
-            if vy_fcu > 0:  # Rightward motion
+            if abs(vy_fcu) > 0.05:  # Lateral motion
                 vy_fcu = 0.0
 
             # # If not strafing significantly, rotate to search for clear path (TODO)
