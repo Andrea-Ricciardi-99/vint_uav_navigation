@@ -5,5 +5,5 @@ vint:
   ckpt_path: "/home/andrea/models/vint/vint.pth"
 
 gnm:
-  config_path: "//home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/train/config/gnm.yaml"
+  config_path: "/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/train/config/gnm.yaml"
   ckpt_path: "/home/andrea/models/gnm/gnm.pth"

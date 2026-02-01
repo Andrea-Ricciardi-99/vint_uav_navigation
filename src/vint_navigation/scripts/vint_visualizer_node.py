@@ -27,7 +27,7 @@ class ViNTVisualizerNode(Node):
         self.declare_parameter('waypoint_topic', '/vint/waypoint')
         self.declare_parameter('closest_node_topic', '/vint/closest_node')
         self.declare_parameter('goal_node', -1)
-        self.declare_parameter('frame_id', 'uav1/fcu')
+        self.declare_parameter('frame_id', 'uav1/gps_garmin_origin')
         self.declare_parameter('num_waypoints_to_show', 3)
         self.declare_parameter('predicted_path_topic', '/vint/viz/predicted_path')
         self.declare_parameter('markers_topic', '/vint/viz/markers')

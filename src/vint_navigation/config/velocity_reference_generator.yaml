@@ -11,7 +11,7 @@ vint_velocity_reference_generator:
 
     # Collision Avoidance Parameters
     use_collision_avoidance: true
-    collision_threshold: 1.0  # Stop if obstacle within 1.5 meters
+    collision_threshold: 1.0  # Stop if obstacle within 1.0 meters
     depth_topic: '/uav1/rgbd_front/depth/image_raw'
 
     # Control Parameters
