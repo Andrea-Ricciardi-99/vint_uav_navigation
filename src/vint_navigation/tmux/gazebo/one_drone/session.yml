@@ -15,8 +15,8 @@ pre_window:
   - export RMW_IMPLEMENTATION=rmw_zenoh_cpp
   - export USE_SIM_TIME="true"
   #- export WORLD_FILE=`ros2 pkg prefix mrs_gazebo_common_resources`/share/mrs_gazebo_common_resources/worlds/pine_forest.sdf
-  - export WORLD_FILE=`ros2 pkg prefix aws_robomaker_small_warehouse_world`/share/aws_robomaker_small_warehouse_world/worlds/small_warehouse/small_warehouse.world
-  #- export WORLD_FILE=`ros2 pkg prefix aws_robomaker_hospital_world`/share/aws_robomaker_hospital_world/worlds/hospital.world
+  #- export WORLD_FILE=`ros2 pkg prefix aws_robomaker_small_warehouse_world`/share/aws_robomaker_small_warehouse_world/worlds/small_warehouse/small_warehouse.world
+  - export WORLD_FILE=`ros2 pkg prefix aws_robomaker_hospital_world`/share/aws_robomaker_hospital_world/worlds/hospital.world
   
 startup_window: status
 windows:
@@ -28,10 +28,10 @@ windows:
       layout: tiled
       panes:
         - ros2 launch mrs_uav_gazebo_simulator simulation.launch.py gz_headless:=false gz_verbose:=true world_file:=$WORLD_FILE
-        # - |
-        #   waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-realsense-front --pos 2 10 0.5 1.56'}"
         - |
-          waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-realsense-front --pos 0 0 0.5 0'}"
+          waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-realsense-front --pos 2 10 0.5 1.56'}"
+        # - |
+        #   waitForGazebo; sleep 5; ros2 service call /mrs_drone_spawner/spawn mrs_msgs/srv/String "{value: '1 --$UAV_TYPE --enable-rangefinder --enable-realsense-front --pos 0 0 0.5 0'}"
   - px4_api:
       layout: tiled
       panes:
@@ -71,7 +71,7 @@ windows:
       panes:
         - |
           waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
-             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/warehouse_v2 \
+             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital_easy \
              image_topic:=/uav1/rgbd_front/color/image_raw \
              depth_topic:=/uav1/rgbd_front/depth/image_raw \
              enable_viz:=true \

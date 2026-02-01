@@ -98,6 +98,13 @@ class ViNTVelocityReferenceGenerator(Node):
                 [1, 0],
                 [0, -1]
         ])
+
+        self.heading_rotation_matrix = np.array([
+            # [0,  -1],
+            # [-1,  0]
+                [1, 0],
+                [0, 1]
+        ])
         
         # State variables
         self.current_odom = None
@@ -275,7 +282,7 @@ class ViNTVelocityReferenceGenerator(Node):
             
             # Transform heading vector from camera to body frame
             heading_vec_cam = np.array([cos_heading_cam, sin_heading_cam])
-            heading_vec_fcu = self.rotation_matrix @ heading_vec_cam
+            heading_vec_fcu = self.heading_rotation_matrix @ heading_vec_cam
             
             # Convert to angle in body frame (relative to current orientation)
             target_heading_body = np.arctan2(heading_vec_fcu[1], heading_vec_fcu[0])
@@ -319,22 +326,22 @@ class ViNTVelocityReferenceGenerator(Node):
             # Only allow backward motion
             if vx_fcu > 0:  # Forward motion
                 vx_fcu = 0.0
-            # If not strafing significantly, rotate to search for clear path
-            STRAFE_THRESHOLD = 0.1  # m/s - consider "not strafing" if below this
-            if abs(vy_fcu) < STRAFE_THRESHOLD:
-                # Override heading control with search rotation
-                # 45 degrees CCW = π/4 radians ≈ 0.785 rad
-                # Apply over time constant to get smooth rotation
-                SEARCH_ROTATION_ANGLE = np.radians(360)  # 360° CCW
-                SEARCH_TIME_CONSTANT = 16.0  # Take 16 seconds to rotate 360°
+            # # If not strafing significantly, rotate to search for clear path
+            # STRAFE_THRESHOLD = 0.1  # m/s - consider "not strafing" if below this
+            # if abs(vy_fcu) < STRAFE_THRESHOLD:
+            #     # Override heading control with search rotation
+            #     # 45 degrees CCW = π/4 radians ≈ 0.785 rad
+            #     # Apply over time constant to get smooth rotation
+            #     SEARCH_ROTATION_ANGLE = np.radians(45)  # 45° CCW
+            #     SEARCH_TIME_CONSTANT = 2.0  # Take 2 seconds to rotate 360°
                 
-                yaw_rate = SEARCH_ROTATION_ANGLE / SEARCH_TIME_CONSTANT
-                yaw_rate = np.clip(yaw_rate, -self.max_yaw_rate, self.max_yaw_rate)
+            #     yaw_rate = SEARCH_ROTATION_ANGLE / SEARCH_TIME_CONSTANT
+            #     yaw_rate = np.clip(yaw_rate, -self.max_yaw_rate, self.max_yaw_rate)
                 
-                self.get_logger().info(
-                    "🔄 Obstacle ahead, rotating to search...",
-                    throttle_duration_sec=16.0
-                )
+            #     self.get_logger().info(
+            #         "🔄 Obstacle ahead, rotating to search...",
+            #         throttle_duration_sec=2.0
+            #     )
                 
         # Altitude control
         altitude_error = self.altitude_hold - current_altitude
