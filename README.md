@@ -6,14 +6,13 @@ Vision-based Navigation Transformer (ViNT) implementation for ROS2 UAV navigatio
 
 ## Overview
 
-This repository implements vision-based autonomous navigation for UAVs using the Visual Navigation Transformer (ViNT) model. The system enables GPS-free navigation in complex environments by learning from topological maps created from camera images.
+This repository implements vision-based autonomous navigation for UAVs using the Visual Navigation Transformer (ViNT) model. The system enables navigation in complex environments by learning from topological maps created from camera images.
 
 ### 🎯 Key Features
 
 - **🗺️ Topological Map Navigation**
   - Record routes by flying manually once
   - Autonomous replay using only camera vision
-  - No GPS, LiDAR, or external localization required
 
 - **🛤️ Real-Time Trail Visualization**
   - Live breadcrumb trail showing drone's traveled path
@@ -42,7 +41,6 @@ This repository implements vision-based autonomous navigation for UAVs using the
 
 - **🌍 Environment Versatility**
   - Indoor and outdoor navigation
-  - GPS-denied environments
   - Complex spaces with corridors, obstacles, and confined areas
 
 ## Prerequisites
