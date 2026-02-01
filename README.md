@@ -4,26 +4,6 @@ Vision-based Navigation Transformer (ViNT) implementation for ROS2 UAV navigatio
 
 **Based on:** [Visual Navigation Transformer (ViNT)](https://github.com/robodhruv/visualnav-transformer)
 
-## Repository Structure
-
-```
-.
-├── aws-robomaker-hospital-world/     # Hospital environment for Gazebo simulation
-├── aws-robomaker-small-warehouse-world/  # Warehouse environment for Gazebo simulation
-└── vint_navigation/                  # Main navigation package
-    ├── config/                       # Configuration files
-    ├── launch/                       # ROS2 launch files
-    ├── tmux/                         # Simulation startup scripts
-    │   ├── gazebo/                   # Gazebo simulation sessions
-    │   └── rosbags/                  # Rosbag replay sessions
-    └── vint_navigation/              # Python nodes
-        ├── create_topomap_node.py
-        ├── utils.py
-        ├── vint_navigator_node.py
-        ├── vint_visualizer_node.py
-        └── vint_velocity_reference_generator.py
-```
-
 ## Overview
 
 This repository implements vision-based autonomous navigation for UAVs using the Visual Navigation Transformer (ViNT) model. The system enables GPS-free navigation in complex environments by learning from topological maps created from camera images.
