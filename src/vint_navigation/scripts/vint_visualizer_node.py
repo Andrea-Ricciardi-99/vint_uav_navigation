@@ -197,7 +197,7 @@ class ViNTVisualizerNode(Node):
         
         drone_marker.pose = self.current_odom.pose.pose
         
-        drone_marker.scale.x = 0.15  # Much smaller (was 0.6)
+        drone_marker.scale.x = 0.15 
         drone_marker.scale.y = 0.15
         drone_marker.scale.z = 0.15
         
@@ -219,7 +219,7 @@ class ViNTVisualizerNode(Node):
         
         start_marker.pose = self.position_history[0]
         
-        start_marker.scale.x = 0.12  # Smaller (was 0.4)
+        start_marker.scale.x = 0.12 
         start_marker.scale.y = 0.12
         start_marker.scale.z = 0.12
         
@@ -248,7 +248,7 @@ class ViNTVisualizerNode(Node):
             
             breadcrumb.pose = self.position_history[i]
             
-            breadcrumb.scale.x = 0.08  # Very small (was 0.2)
+            breadcrumb.scale.x = 0.08
             breadcrumb.scale.y = 0.08
             breadcrumb.scale.z = 0.08
             
@@ -262,7 +262,7 @@ class ViNTVisualizerNode(Node):
             marker_array.markers.append(breadcrumb)
             marker_id += 1
         
-        # Info text (BLACK and smaller)
+        # Info text marker
         text_marker = Marker()
         text_marker.header.stamp = now
         text_marker.header.frame_id = self.frame_id
@@ -273,12 +273,12 @@ class ViNTVisualizerNode(Node):
         
         text_marker.pose.position.x = self.current_odom.pose.pose.position.x
         text_marker.pose.position.y = self.current_odom.pose.pose.position.y
-        text_marker.pose.position.z = self.current_odom.pose.pose.position.z + 1.0  # Closer to drone
+        text_marker.pose.position.z = self.current_odom.pose.pose.position.z + 1.0
         text_marker.pose.orientation.w = 1.0
         
-        text_marker.scale.z = 0.3  # Smaller text (was 0.5)
+        text_marker.scale.z = 0.3 
         
-        text_marker.color.r = 0.0  # BLACK text
+        text_marker.color.r = 0.0 
         text_marker.color.g = 0.0
         text_marker.color.b = 0.0
         text_marker.color.a = 1.0
