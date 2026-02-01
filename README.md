@@ -21,13 +21,49 @@ Vision-based Navigation Transformer (ViNT) implementation for ROS2 UAV navigatio
         ├── utils.py
         ├── vint_navigator_node.py
         ├── vint_visualizer_node.py
-        ├── vint_to_mrs_waypoint_node.py
         └── vint_velocity_reference_generator.py
 ```
 
 ## Overview
 
-This repository implements visual navigation for UAVs using the ViNT model. The system uses topological maps created from camera images and generates waypoints for autonomous navigation.
+This repository implements vision-based autonomous navigation for UAVs using the Visual Navigation Transformer (ViNT) model. The system enables GPS-free navigation in complex environments by learning from topological maps created from camera images.
+
+### 🎯 Key Features
+
+- **🗺️ Topological Map Navigation**
+  - Record routes by flying manually once
+  - Autonomous replay using only camera vision
+  - No GPS, LiDAR, or external localization required
+
+- **🛤️ Real-Time Trail Visualization**
+  - Live breadcrumb trail showing drone's traveled path
+  - Color-coded position markers (start, current, waypoints)
+  - Distance tracking and progress monitoring in RViz
+
+- **🛡️ Collision Avoidance**
+  - Depth camera-based obstacle detection
+  - Automatic velocity reduction near obstacles
+  - Configurable safety thresholds
+
+- **🚁 MRS UAV System Integration**
+  - Full compatibility with CTU's Multi-robot Systems framework
+  - Seamless velocity reference generation
+  - Tested with Gazebo simulation environments
+
+- **📊 Rich Visualization Tools**
+  - Annotated camera feed with waypoint overlays
+  - Real-time ViNT output display (position, heading, distance)
+  - RViz integration with path planning and markers
+
+- **⚙️ Flexible Configuration**
+  - YAML-based parameter tuning
+  - Support for different ViNT models (ViNT, GNM)
+  - Adjustable navigation parameters and control limits
+
+- **🌍 Environment Versatility**
+  - Indoor and outdoor navigation
+  - GPS-denied environments
+  - Complex spaces with corridors, obstacles, and confined areas
 
 ## Prerequisites
 
