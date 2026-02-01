@@ -159,37 +159,74 @@ Main navigation node that processes camera images and generates waypoints using 
 
 #### 3. `vint_visualizer_node.py`
 
-Visualization node for RViz displaying navigation progress and predicted waypoints.
+Visualization node for RViz displaying navigation progress and the drone's traveled path as a trail.
 
 **Subscribed Topics:**
-- `/camera/image_raw` - Camera feed
-- `/vint/waypoint` - Current waypoint
-- `/vint/closest_node` - Current node index
+- `/camera/image_raw` - Camera feed for annotated image
+- `/vint/waypoint` - Current waypoint from ViNT
+- `/vint/closest_node` - Current node index in topomap
+- `/{uav_name}/estimation_manager/odom_main` - UAV odometry for trail recording
 
 **Published Topics:**
-- `/vint/viz/predicted_path` (Path) - Predicted path for RViz
-- `/vint/viz/markers` (MarkerArray) - Visualization markers
-- `/vint/viz/annotated_image` (Image) - Camera image with waypoint overlay
-
-#### 4. `vint_velocity_reference_generator.py`
-
-Converts ViNT spatial waypoints to velocity references for MRS UAV controllers. Handles frame transformations from camera frame to world frame.
-
-**Subscribed Topics:**
-- `/vint/waypoint` - ViNT waypoint commands
-- `/{uav_name}/estimation_manager/odom_main` - UAV odometry
-
-**Published Topics:**
-- `/{uav_name}/control_manager/velocity_reference` - MRS velocity reference
+- `/vint/viz/trail` (Path) - Drone's traveled path trail
+- `/vint/viz/trail_markers` (MarkerArray) - Start/current position markers and breadcrumbs
+- `/vint/viz/annotated_image` (Image) - Camera image with waypoint overlay and ViNT outputs
 
 **Parameters:**
 - `uav_name` - UAV namespace (default: 'uav1')
-- `max_horizontal_speed` - Maximum horizontal velocity (default: 1.5 m/s)
-- `max_vertical_speed` - Maximum vertical velocity (default: 0.5 m/s)
+- `frame_id` - Visualization frame (default: 'uav1/fixed_origin')
+- `trail_length` - Number of positions to keep in trail history (default: 1000)
+- `goal_node` - Target node index for progress display (default: -1)
+
+**Visualization Features:**
+- **Trail Path:** Continuous cyan line showing where the drone has traveled
+- **Position Markers:** 
+  - Green sphere at start position
+  - Blue sphere at current drone position
+  - Orange-yellow breadcrumbs along the path (color gradient shows time)
+- **Info Display:** Black text showing current node and total distance traveled
+- **Annotated Image:** Camera view with:
+  - Node progress (green text)
+  - Waypoint x, y coordinates (cyan text)
+  - Heading cos, sin + angle in degrees (orange text)
+  - Trail point count (yellow text)
+  - Visual arrow pointing to waypoint target
+
+
+#### 4. `vint_velocity_reference_generator.py`
+
+Converts ViNT spatial waypoints to velocity references for MRS UAV controllers. Handles frame transformations from camera frame to world frame and includes optional depth-based collision avoidance.
+
+**Subscribed Topics:**
+- `/vint/waypoint` - ViNT waypoint commands (x, y, cos_heading, sin_heading)
+- `/{uav_name}/estimation_manager/odom_main` - UAV odometry for frame transformation
+- `/{uav_name}/rgbd_front/depth/image_raw` (optional) - Depth image for collision avoidance
+
+**Published Topics:**
+- `/{uav_name}/control_manager/velocity_reference` - MRS velocity reference commands
+
+**Parameters:**
+- `uav_name` - UAV namespace (default: 'uav1')
+- `max_horizontal_speed` - Maximum horizontal velocity (default: 2.5 m/s)
+- `max_vertical_speed` - Maximum vertical velocity (default: 1.0 m/s)
 - `max_yaw_rate` - Maximum yaw rate (default: 0.8 rad/s)
-- `altitude_hold` - Target altitude (default: 1.5 m)
+- `altitude_hold` - Target altitude (default: 2.0 m)
 - `vint_is_normalized` - Whether ViNT outputs are normalized (default: true)
-- `velocity_damping` - Velocity smoothing factor (default: 0.7)
+- `vint_max_v` - MAX_V from ViNT training config (default: 0.5)
+- `vint_rate` - Frame rate from ViNT training config (default: 10.0)
+- `use_heading` - Use ViNT heading predictions (default: false)
+- `velocity_damping` - Velocity smoothing factor 0-1 (default: 0.7)
+- `dt` - Control timestep (default: 0.1 s)
+- `use_collision_avoidance` - Enable depth-based collision avoidance (default: true)
+- `collision_threshold` - Minimum safe distance to obstacles (default: 1.0 m)
+
+**Features:**
+- Body-frame to world-frame transformation
+- Velocity scaling and clamping
+- Exponential smoothing for stable control
+- Optional heading control from ViNT predictions
+- Depth-based collision avoidance with automatic stopping
+
 
 #### 5. `utils.py`
 
@@ -246,6 +283,11 @@ Launch the ViNT navigation system:
 ros2 launch vint_navigation vint_navigation.launch.py \
     topomap_dir:=/path/to/topomaps/my_route \
     uav_name:=uav1
+    enable_viz:=true 
+    enable_control:=true 
+    use_heading:=true 
+    altitude_hold:=1.5 
+    use_collision_avoidance:=true 
 ```
 
 Or run nodes individually:
@@ -260,9 +302,13 @@ ros2 run vint_navigation vint_navigator_node --ros-args \
 ros2 run vint_navigation vint_velocity_reference_generator --ros-args \
     -p uav_name:=uav1 \
     -p altitude_hold:=1.5
+    -p enable_control:=true 
+    -p use_heading:=true 
+    -p use_collision_avoidance:=true 
 
 # Start visualizer (optional)
 ros2 run vint_navigation vint_visualizer_node
+    -p enable_viz:=true 
 ```
 
 ### 4. Monitor in RViz
@@ -277,7 +323,8 @@ Key configuration files in `vint_navigation/config/`:
 
 - `robot.yaml` - Robot parameters (max velocities, frame rate)
 - `models.yaml` - Model paths and configurations
-- `vint_config.yaml` - ViNT model hyperparameters
+- `vint_params.yaml` - ViNT navigation hyperparameters
+- `velocity_reference_generator.yaml` - ViNT velocity reference hyperparameters
 
 ## Environments
 
