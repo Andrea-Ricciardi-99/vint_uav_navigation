@@ -191,8 +191,8 @@ class ViNTVelocityReferenceGenerator(Node):
 
         if self.use_heading and len(waypoint_camera) >= 4:
             # Extract heading from ViNT output (components 2 and 3)
-            sin_heading_cam = float(waypoint_camera[2])
-            cos_heading_cam = float(waypoint_camera[3])
+            cos_heading_cam = float(waypoint_camera[2])
+            sin_heading_cam = float(waypoint_camera[3])
             
             # Normalize (for safety)
             norm = np.sqrt(sin_heading_cam**2 + cos_heading_cam**2)
@@ -201,7 +201,7 @@ class ViNTVelocityReferenceGenerator(Node):
                 cos_heading_cam /= norm
             
             # Transform heading vector from camera to body frame
-            heading_vec_cam = np.array([sin_heading_cam, cos_heading_cam])
+            heading_vec_cam = np.array([cos_heading_cam, sin_heading_cam])
             heading_vec_fcu = self.rotation_matrix @ heading_vec_cam
             
             # Convert to angle in body frame (relative to current orientation)

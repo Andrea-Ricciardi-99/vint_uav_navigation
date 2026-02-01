@@ -71,7 +71,7 @@ windows:
       panes:
         - |
           waitForCore; ros2 launch vint_navigation vint_navigation.launch.py \
-             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital \
+             topomap_dir:=/home/andrea/Desktop/Drone_VLA/VINT_ws/src/vint_navigation/topomaps/hospital_easy \
              image_topic:=/uav1/rgbd_front/color/image_raw \
              enable_viz:=true \
              enable_control:=true \
