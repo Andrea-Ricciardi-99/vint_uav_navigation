@@ -2,18 +2,21 @@
 """
 ViNT Navigation Launch File for MRS UAV System
 
+
 Launches:
   - ViNT Navigator: Visual navigation model
-  - Visualizer: RViz visualization (optional)
+  - Visualizer: RViz visualization with trail (optional)
   - Velocity Reference Generator: Converts ViNT waypoints to MRS velocity commands (optional)
 """
 
+
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution, PythonExpression
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 from launch import conditions
+
 
 
 def generate_launch_description():
@@ -65,16 +68,16 @@ def generate_launch_description():
     )
     
     # --- Visualization Arguments ---
-    predicted_path_topic_arg = DeclareLaunchArgument(
-        'predicted_path_topic',
-        default_value='vint/viz/predicted_path',
-        description='Predicted path visualization topic (relative to namespace)'
+    trail_topic_arg = DeclareLaunchArgument(
+        'trail_topic',
+        default_value='vint/viz/trail',
+        description='Drone trail path visualization topic (relative to namespace)'
     )
     
-    markers_topic_arg = DeclareLaunchArgument(
-        'markers_topic',
-        default_value='vint/viz/markers',
-        description='Markers visualization topic (relative to namespace)'
+    trail_markers_topic_arg = DeclareLaunchArgument(
+        'trail_markers_topic',
+        default_value='vint/viz/trail_markers',
+        description='Trail markers visualization topic (relative to namespace)'
     )
     
     annotated_image_topic_arg = DeclareLaunchArgument(
@@ -87,6 +90,12 @@ def generate_launch_description():
         'closest_node_topic',
         default_value='vint/closest_node',
         description='Closest node topic (relative to namespace)'
+    )
+    
+    trail_length_arg = DeclareLaunchArgument(
+        'trail_length',
+        default_value='1000',
+        description='Number of positions to keep in trail history'
     )
     
     enable_viz_arg = DeclareLaunchArgument(
@@ -160,7 +169,7 @@ def generate_launch_description():
     
     use_heading_arg = DeclareLaunchArgument(
         'use_heading',
-        default_value='false',
+        default_value='true',
         description='Use ViNT heading predictions (learn_angle from training)'
     )
 
@@ -216,12 +225,15 @@ def generate_launch_description():
         namespace=LaunchConfiguration('uav_name'),
         output='screen',
         parameters=[{
+            'uav_name': LaunchConfiguration('uav_name'),
             'image_topic': LaunchConfiguration('image_topic'),
             'waypoint_topic': LaunchConfiguration('waypoint_topic'),
             'closest_node_topic': LaunchConfiguration('closest_node_topic'),
-            'frame_id': PythonExpression(["'", LaunchConfiguration('uav_name'), "/fcu'"]),
-            'predicted_path_topic': LaunchConfiguration('predicted_path_topic'),
-            'markers_topic': LaunchConfiguration('markers_topic'),
+            'goal_node': -1,
+            'frame_id': PythonExpression(["'", LaunchConfiguration('uav_name'), "/fixed_origin'"]),
+            'trail_length': LaunchConfiguration('trail_length'),
+            'trail_topic': LaunchConfiguration('trail_topic'),
+            'trail_markers_topic': LaunchConfiguration('trail_markers_topic'),
             'annotated_image_topic': LaunchConfiguration('annotated_image_topic'),
         }],
         emulate_tty=True,
@@ -286,10 +298,11 @@ def generate_launch_description():
         debug_arg,
         
         # Visualization arguments
-        predicted_path_topic_arg,
-        markers_topic_arg,
+        trail_topic_arg,
+        trail_markers_topic_arg,
         annotated_image_topic_arg,
         closest_node_topic_arg,
+        trail_length_arg,
         enable_viz_arg,
         
         # Control arguments

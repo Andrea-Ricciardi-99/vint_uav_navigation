@@ -272,6 +272,40 @@ Visualization Manager:
         Min Value: 0.0
         Max Value: 1.0
         Queue Size: 2
+      - Class: rviz_default_plugins/Path
+        Name: Trail Path
+        Enabled: true
+        Topic:
+          Value: /uav1/vint/viz/trail
+          Depth: 5
+          Durability Policy: Volatile
+          History Policy: Keep Last
+          Reliability Policy: Reliable
+        Color: 0; 255; 255
+        Alpha: 1.0
+        Buffer Length: 1
+        Line Style: Lines
+        Line Width: 0.03
+        Offset:
+          X: 0
+          Y: 0
+          Z: 0
+        Pose Color: 255; 85; 255
+        Pose Style: None
+      - Class: rviz_default_plugins/MarkerArray
+        Name: Trail Markers
+        Enabled: true
+        Topic:
+          Value: /uav1/vint/viz/trail_markers
+          Depth: 5
+          Durability Policy: Volatile
+          History Policy: Keep Last
+          Reliability Policy: Reliable
+        Namespaces:
+          current_position: true
+          start_position: true
+          breadcrumbs: true
+          info_text: true
       Enabled: true
       Name: ViNT
   Enabled: true
