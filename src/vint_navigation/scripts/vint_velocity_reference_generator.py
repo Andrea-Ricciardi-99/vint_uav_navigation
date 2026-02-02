@@ -187,8 +187,8 @@ class ViNTVelocityReferenceGenerator(Node):
             # Vertical: center band (30% of image height)
             center_y_start = int(height * 0.35)
             center_y_end = int(height * 0.65)
-            center_x_start = int(width * 0.20)  # Extended from 0.35 to 0.20
-            center_x_end = int(width * 0.80)    # Extended from 0.65 to 0.80
+            center_x_start = int(width * 0.20)  
+            center_x_end = int(width * 0.80)    
             
             # Parse depth data from byte array to float32
             # encoding='32FC1' means 32-bit float, single channel
@@ -245,18 +245,13 @@ class ViNTVelocityReferenceGenerator(Node):
         waypoint_fcu = self.rotation_matrix @ waypoint_cam
         dx_fcu = waypoint_fcu[0]
         dy_fcu = waypoint_fcu[1]
-
-        # ========================================================================
-        # KEY CHANGE: Use BOTH forward AND lateral velocity
-        # Don't turn aggressively - UAVs can strafe!
-        # ========================================================================
         
         # Forward and lateral velocities in FCU frame
         v_forward_fcu = dx_fcu / self.dt
         v_lateral_fcu = dy_fcu / self.dt
 
         # Velocity gain multiplier (tune as needed)
-        VELOCITY_GAIN = 4.0  # Start with 2.0, adjust based on testing
+        VELOCITY_GAIN = 4.0 
         v_forward_fcu *= VELOCITY_GAIN
         v_lateral_fcu *= VELOCITY_GAIN
         
