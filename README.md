@@ -386,7 +386,7 @@ If you use this code, please cite the original ViNT paper:
 ## License
 
 This project integrates multiple components:
-- ViNT model: See original ViNT repository license
+- ViNT model: MIT License
 - AWS RoboMaker worlds: Apache 2.0
 - MRS UAV System: BSD 3-Clause
 
