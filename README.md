@@ -385,10 +385,16 @@ If you use this code, please cite the original ViNT paper:
 
 ## License
 
-This project integrates multiple components:
-- ViNT model: MIT License
-- AWS RoboMaker worlds: MIT-0 License
-- MRS UAV System: BSD 3-Clause
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### Component Licenses
+
+This repository integrates multiple components with their respective licenses:
+- **ViNT Model**: [MIT License](https://github.com/robodhruv/visualnav-transformer/blob/main/LICENSE)
+- **AWS RoboMaker Worlds**: [MIT-0 License](https://github.com/aws-robotics/aws-robomaker-hospital-world/blob/ros2/LICENSE)
+- **MRS UAV System**: [BSD 3-Clause License](https://github.com/ctu-mrs/mrs_uav_system/blob/ros2/LICENSE)
+
+All licenses are permissive and fully compatible.
 
 ## Acknowledgments
 
